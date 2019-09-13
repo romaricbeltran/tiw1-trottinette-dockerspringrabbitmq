@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import tiw1.maintenance.models.Intervention;
 import tiw1.maintenance.models.Trottinette;
 import tiw1.maintenance.spring.AppConfig;
+
+import java.util.Vector;
 
 import static org.junit.Assert.*;
 
@@ -43,5 +46,30 @@ public class MaintenanceTest {
         t2.setDisponible(!t.isDisponible());
         Trottinette t3 = m.updateTrottinette(t2);
         assertNotEquals(t_disp, t3.isDisponible());
+    }
+
+    @Test
+    public void testAjouterIntervention() {
+        Trottinette t = m.creerTrottinette();
+        long id = t.getId();
+
+        // Création des interventions avec une description unique
+        Vector<Intervention> interventions = new Vector<>();
+        for (int i = 0; i < 10; i++) {
+            interventions.add(new Intervention());
+            interventions.get(i).setDescription("Numéro d'intervention :" + i);
+        }
+
+        // On persiste nos interventions à la trottinette t
+        for (int i = 0; i < interventions.size(); i++) {
+            Trottinette trotTmp = m.ajouterIntervention(id, interventions.get(i));
+        }
+
+        // On récupère la trottinette et on vérifie que les descriptions respectives correspondent
+        Trottinette trotInBase = m.getTrottinetteAndInterventions(id);
+        for (int i = 0; i < t.getInterventions().size(); i++) {
+            assertEquals(interventions.get(i).getDescription(),
+                    trotInBase.getInterventions().iterator().next().getDescription());
+        }
     }
 }
