@@ -15,6 +15,9 @@ public class Trottinette {
     @GeneratedValue
     private long id;
 
+    @OneToOne
+    private Batterie batterie;
+
     private boolean disponible = true;
 
     @OneToMany
@@ -33,6 +36,14 @@ public class Trottinette {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Batterie getBatterie() {
+        return batterie;
+    }
+
+    public void setBatterie(Batterie batterie) {
+        this.batterie = batterie;
     }
 
     public boolean isDisponible() {
