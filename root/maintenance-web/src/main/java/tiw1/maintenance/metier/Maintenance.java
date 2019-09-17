@@ -2,6 +2,7 @@ package tiw1.maintenance.metier;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import tiw1.maintenance.models.Batterie;
 import tiw1.maintenance.models.Intervention;
 import tiw1.maintenance.models.Trottinette;
 
@@ -75,5 +76,43 @@ public class Maintenance {
             t.ajouterIntervention(intervention);
         }
         return t;
+    }
+
+    @Transactional
+    public List<Batterie> getBatteries() {
+        List<Batterie> batteries = em.createNamedQuery("allBatteries", Batterie.class).getResultList();
+
+        return batteries;
+    }
+
+    @Transactional
+    public Batterie getBatterie(long id) {
+        try {
+            Batterie b = em
+                    .createNamedQuery("batterieById", Batterie.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+            return b;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Transactional
+    public Batterie creerBatterie() {
+        Batterie b = new Batterie();
+        em.persist(b);
+        return b;
+    }
+
+    @Transactional
+    public void supprimerBatterie(Batterie b) {
+        em.remove(b);
+    }
+
+    @Transactional
+    public void supprimerBatterie(long id) {
+        Batterie b = getBatterie(id);
+        supprimerBatterie(b);
     }
 }
