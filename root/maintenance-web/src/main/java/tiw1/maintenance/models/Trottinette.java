@@ -20,7 +20,7 @@ public class Trottinette {
 
     private boolean disponible = true;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Collection<Intervention> interventions = new ArrayList<>();
 
     public Trottinette() {

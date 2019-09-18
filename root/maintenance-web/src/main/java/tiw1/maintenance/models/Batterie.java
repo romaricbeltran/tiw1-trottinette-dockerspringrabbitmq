@@ -8,6 +8,7 @@ import javax.persistence.*;
         @NamedQuery(name = "batterieById", query = "SELECT b FROM Batterie b where b.id=:id"),
         @NamedQuery(name = "singleBatterieAvailable", query = "SELECT b FROM Batterie b where b.notInstall = true")
 })
+
 public class Batterie {
 
     @Id

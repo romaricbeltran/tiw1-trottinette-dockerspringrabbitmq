@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tiw1.maintenance.metier.Maintenance;
-import tiw1.maintenance.models.Batterie;
 import tiw1.maintenance.models.Intervention;
 import tiw1.maintenance.models.Trottinette;
 
@@ -64,9 +63,9 @@ public class TrottinetteController {
         }
     }
 
-    @PostMapping("/{id}/ajouterBatterie")
-    public ResponseEntity<Trottinette> ajouterBatterie(@PathVariable long id, @RequestBody Batterie batterie) {
-        Trottinette trottinette = m.ajouterBatterie(id, batterie);
+    @PutMapping("/{id}/ajouterBatterie")
+    public ResponseEntity<Trottinette> ajouterBatterie(@PathVariable long id) {
+        Trottinette trottinette = m.ajouterBatterie(id);
         if (trottinette == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
