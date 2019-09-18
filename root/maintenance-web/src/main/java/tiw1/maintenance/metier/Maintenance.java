@@ -99,6 +99,18 @@ public class Maintenance {
     }
 
     @Transactional
+    public Batterie getAvailableBatterie() {
+        try {
+            Batterie b = em
+                    .createNamedQuery("singleBatterieAvailable", Batterie.class)
+                    .setMaxResults(1).getSingleResult();
+            return b;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Transactional
     public Batterie creerBatterie() {
         Batterie b = new Batterie();
         em.persist(b);
@@ -114,5 +126,19 @@ public class Maintenance {
     public void supprimerBatterie(long id) {
         Batterie b = getBatterie(id);
         supprimerBatterie(b);
+    }
+
+    @Transactional
+    public Trottinette ajouterBatterie(long idTrottinette) {
+        // TODO: tests: cas standard, trottinette inexistante
+        Trottinette t = em.find(Trottinette.class, idTrottinette);
+        Batterie b = getAvailableBatterie();
+        if (t != null) {
+            if (b != null) {
+                t.setBatterie(b);
+                b.setNotInstall(false);
+            }
+        }
+        return t;
     }
 }

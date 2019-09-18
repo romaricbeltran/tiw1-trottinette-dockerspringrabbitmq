@@ -50,7 +50,7 @@ public class AppConfig {
         LOG.debug("set persistence provider");
         emfb.setLoadTimeWeaver(weaver());
         LOG.debug("set weaver");
-        emfb.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "update");
+        emfb.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "create-drop");
         emfb.setPackagesToScan("tiw1.maintenance.models");
         return emfb;
     }
