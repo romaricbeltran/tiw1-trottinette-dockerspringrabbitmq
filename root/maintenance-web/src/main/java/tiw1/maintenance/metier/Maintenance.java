@@ -130,14 +130,22 @@ public class Maintenance {
 
     @Transactional
     public Trottinette ajouterBatterie(long idTrottinette) {
-        // TODO: tests: cas standard, trottinette inexistante
         Trottinette t = em.find(Trottinette.class, idTrottinette);
         Batterie b = getAvailableBatterie();
-        if (t != null) {
-            if (b != null) {
-                t.setBatterie(b);
-                b.setNotInstall(false);
-            }
+        if (t != null && t.getBatterie() == null && b != null) {
+            t.setBatterie(b);
+            b.setNotInstall(false);
+        }
+        return t;
+    }
+
+    @Transactional
+    public Trottinette retirerBatterie(long idTrottinette) {
+        Trottinette t = em.find(Trottinette.class, idTrottinette);
+        Batterie b = t.getBatterie();
+        if (t != null && b != null) {
+            t.setBatterie(null);
+            b.setNotInstall(true);
         }
         return t;
     }
