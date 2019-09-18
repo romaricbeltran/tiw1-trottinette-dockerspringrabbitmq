@@ -17,6 +17,10 @@ public class Batterie {
 
     private boolean notInstall = true;
 
+    private boolean unPlugged = true;
+
+    private boolean fullCharged = true;
+
     public Batterie() {
     }
 
@@ -34,5 +38,21 @@ public class Batterie {
 
     public void setNotInstall(boolean notInstall) {
         this.notInstall = notInstall;
+    }
+
+    public boolean isUnPlugged() {
+        return unPlugged;
+    }
+
+    public void setUnPlugged(boolean unPlugged) {
+        this.unPlugged = unPlugged;
+    }
+
+    public boolean isFullCharged() {
+        return fullCharged;
+    }
+
+    public void setFullCharged(boolean fullCharged) {
+        this.fullCharged = fullCharged;
     }
 }

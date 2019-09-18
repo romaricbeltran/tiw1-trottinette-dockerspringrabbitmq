@@ -142,11 +142,49 @@ public class Maintenance {
     @Transactional
     public Trottinette retirerBatterie(long idTrottinette) {
         Trottinette t = em.find(Trottinette.class, idTrottinette);
-        Batterie b = t.getBatterie();
-        if (t != null && b != null) {
-            t.setBatterie(null);
-            b.setNotInstall(true);
+        if (t != null) {
+            Batterie b = t.getBatterie();
+            if(b != null) {
+                t.setBatterie(null);
+                b.setNotInstall(true);
+            }
         }
         return t;
+    }
+
+    @Transactional
+    public Batterie brancherBatterie(long idBatterie) {
+        Batterie b = getBatterie(idBatterie);
+        if(b != null && b.isUnPlugged()) {
+            b.setUnPlugged(false);
+        }
+        return b;
+    }
+
+    @Transactional
+    public Batterie debrancherBatterie(long idBatterie) {
+        Batterie b = getBatterie(idBatterie);
+        if(b != null && !b.isUnPlugged()) {
+            b.setUnPlugged(true);
+        }
+        return b;
+    }
+
+    @Transactional
+    public Batterie estChargee(long idBatterie) {
+        Batterie b = getBatterie(idBatterie);
+        if(b != null && !b.isFullCharged()) {
+            b.setFullCharged(true);
+        }
+        return b;
+    }
+
+    @Transactional
+    public Batterie estDechargee(long idBatterie) {
+        Batterie b = getBatterie(idBatterie);
+        if(b != null && b.isFullCharged()) {
+            b.setFullCharged(false);
+        }
+        return b;
     }
 }

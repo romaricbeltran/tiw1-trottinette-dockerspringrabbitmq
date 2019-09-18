@@ -43,5 +43,46 @@ public class BatterieController {
         m.supprimerBatterie(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{id}/brancherBatterie")
+    public ResponseEntity<Batterie> brancherBatterie(@PathVariable long id) {
+        Batterie batterie = m.brancherBatterie(id);
+        if (batterie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(batterie, HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/{id}/debrancherBatterie")
+    public ResponseEntity<Batterie> debrancherBatterie(@PathVariable long id) {
+        Batterie batterie = m.debrancherBatterie(id);
+        if (batterie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(batterie, HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/{id}/estChargee")
+    public ResponseEntity<Batterie> estChargee(@PathVariable long id) {
+        Batterie batterie = m.estChargee(id);
+        if (batterie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(batterie, HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/{id}/estDechargee")
+    public ResponseEntity<Batterie> estDechargee(@PathVariable long id) {
+        Batterie batterie = m.estDechargee(id);
+        if (batterie == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(batterie, HttpStatus.OK);
+        }
+    }
+
 }
 
