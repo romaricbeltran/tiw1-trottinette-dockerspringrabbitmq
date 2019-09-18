@@ -72,4 +72,14 @@ public class TrottinetteController {
             return new ResponseEntity<>(trottinette, HttpStatus.OK);
         }
     }
+
+    @PutMapping("/{id}/retirerBatterie")
+    public ResponseEntity<Trottinette> retirerBatterie(@PathVariable long id) {
+        Trottinette trottinette = m.retirerBatterie(id);
+        if (trottinette == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(trottinette, HttpStatus.OK);
+        }
+    }
 }
