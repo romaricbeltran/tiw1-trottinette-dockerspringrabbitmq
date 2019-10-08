@@ -81,4 +81,7 @@ public class TrottinetteLoader {
         return responseBody;
     }
 
+    public static Trottinette getTrottinetteById(long id) {
+        return trottinettes.get(id);
+    }
 }
