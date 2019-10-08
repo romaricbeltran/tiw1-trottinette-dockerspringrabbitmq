@@ -30,7 +30,12 @@ stages:
 package:
   stage: build
   script:
-    - cd root; mvn jetty:run; mvn $MAVEN_CLI_OPTS package
+    - cd root;
+    - mvn $MAVEN_CLI_OPTS jetty:run 2>&1 > maintenance.jetty.log & mvn_jetty_pid=$!
+    # wait for jetty to be ready for fail after 45s
+    - for i in $(seq 10); do grep -q "Started Jetty Server" maintenance.jetty.log && break; [ $i = 10 ] && echo "Jetty failed to start" && cat maintenance.jetty.log && exit 1; echo "Jetty not ready, waiting 5s"; sleep 5; done
+    - mvn $MAVEN_CLI_OPTS package || (kill $mvn_jetty_pid; exit 1)
+    - kill $mvn_jetty_pid 
 
 test-maintenance-api:
   stage: test
