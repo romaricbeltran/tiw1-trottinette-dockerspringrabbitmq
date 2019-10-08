@@ -20,8 +20,7 @@ public class ServeurTest {
     @Test
     public void testGetTrottinetteDisponibilite() {
         System.out.println("testGetTrottinetteDisponibilite");
-        assertTrue(serveur.getTrottinetteDisponibilite(1));
-        assertFalse(serveur.getTrottinetteDisponibilite(2));
+        assertFalse(serveur.getTrottinetteDisponibilite(1));
     }
 }
 
