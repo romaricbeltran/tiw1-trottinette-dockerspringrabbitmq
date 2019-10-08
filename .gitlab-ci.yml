@@ -30,7 +30,7 @@ stages:
 package:
   stage: build
   script:
-    - cd root; mvn $MAVEN_CLI_OPTS package
+    - cd root; mvn jetty:run; mvn $MAVEN_CLI_OPTS package
 
 test-maintenance-api:
   stage: test
