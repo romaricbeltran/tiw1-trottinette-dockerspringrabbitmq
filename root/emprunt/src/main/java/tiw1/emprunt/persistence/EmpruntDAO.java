@@ -4,14 +4,21 @@ import tiw1.emprunt.model.Emprunt;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public class EmpruntDAO implements DAO<Emprunt> {
     @PersistenceContext
     private EntityManager em;
+
+    private static final String PERSISTENCE_UNIT_NAME = "test-pu";
+
+    public EmpruntDAO() {
+        em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
+    }
 
     public void setEm(EntityManager em) {
         this.em = em;
@@ -55,5 +62,10 @@ public class EmpruntDAO implements DAO<Emprunt> {
     @Override
     public void delete(Emprunt emprunt) {
         throw new UnsupportedOperationException();
+    }
+
+    public List getEmpruntByDate(Date date) {
+        List<Emprunt> emprunts = em.createNamedQuery("empruntByDate", Emprunt.class).setParameter("date", date).getResultList();
+        return emprunts;
     }
 }

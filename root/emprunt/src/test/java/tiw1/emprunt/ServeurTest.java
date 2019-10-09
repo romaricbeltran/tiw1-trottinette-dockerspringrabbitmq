@@ -3,9 +3,11 @@ package tiw1.emprunt;
 import org.junit.Before;
 import org.junit.Test;
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.serveur.Serveur;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,5 +56,29 @@ public class ServeurTest {
         serveur.deleteAbonne(charles);
         assertEquals(1, listAbonne.size());
     }
-}
 
+    @Test
+    public void testServeurEmprunt() {
+        System.out.println("testServeurEmprunt");
+
+        Date date = new Date();
+
+        List<Emprunt> emprunts = new ArrayList<>();
+        Emprunt emprunt1 = new Emprunt((long) 1, date, (long) 2, (long) 1);
+        emprunts.add(emprunt1);
+
+        // Création
+        System.out.println("testServeurEmpruntCreation");
+
+        serveur.saveEmprunt(emprunt1);
+        List listEmprunt = serveur.getAllEmprunt();
+        assertEquals(1, listEmprunt.size());
+
+
+        // Récupération par date
+        System.out.println("testServeurGetEmpruntByDate");
+
+        List listEmpruntByDate = serveur.getEmpruntByDate(date);
+        assertEquals(emprunts, listEmpruntByDate);
+    }
+}
