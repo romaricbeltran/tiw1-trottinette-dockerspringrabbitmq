@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -88,19 +89,24 @@ public class ServeurTest {
 
     @Test
     public void checkEmprunt() {
-        Date date = new Date();
-        EmpruntDTO empruntDTO = new EmpruntDTO();
-        empruntDTO.setId((long)1);
-        empruntDTO.setDate(date);
-        empruntDTO.setIdAbonne((long)2);
-        empruntDTO.setIdTrottinette((long)1);
+        EmpruntDTO empruntDTO = new EmpruntDTO((long)2, (long)1);
 
         Emprunt emprunt = modelMapper.map(empruntDTO, Emprunt.class);
-        assertEquals(empruntDTO.getId(), emprunt.getId());
-        assertEquals(empruntDTO.getDate(), emprunt.getDate());
         assertEquals(empruntDTO.getIdAbonne(), emprunt.getIdAbonne());
         assertEquals(empruntDTO.getIdTrottinette(), emprunt.getIdTrottinette());
+    }
 
-        serveur.getAllempruntAsEmpruntDTO();
+    @Test
+    public void addEmprunt() {
+        EmpruntDTO empruntDTO = new EmpruntDTO((long)2, (long)1);
+
+        serveur.createEmprunt(empruntDTO);
+
+        Emprunt emprunt = (Emprunt) serveur.getAllEmprunt().get(1);
+
+        List listEmprunt = serveur.getAllEmprunt();
+        assertEquals(2, listEmprunt.size());
+        assertEquals(Optional.of((long) 2), Optional.ofNullable(emprunt.getIdAbonne()));
+        assertEquals(Optional.of((long) 1), Optional.ofNullable(emprunt.getIdTrottinette()));
     }
 }

@@ -9,13 +9,7 @@ public class EmpruntDTO {
 
     private Long idAbonne, idTrottinette;
 
-    public EmpruntDTO() {
-
-    }
-
-    public EmpruntDTO(Long id, Date date, Long idAbonne, Long idTrottinette) {
-        this.id = id;
-        this.date = date;
+    public EmpruntDTO(Long idAbonne, Long idTrottinette) {
         this.idAbonne = idAbonne;
         this.idTrottinette = idTrottinette;
     }
