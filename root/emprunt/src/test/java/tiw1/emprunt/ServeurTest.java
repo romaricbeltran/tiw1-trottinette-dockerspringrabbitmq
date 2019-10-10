@@ -2,6 +2,8 @@ package tiw1.emprunt;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.modelmapper.ModelMapper;
+import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.serveur.Serveur;
@@ -17,6 +19,8 @@ import static org.junit.Assert.assertFalse;
 public class ServeurTest {
 
     private Serveur serveur;
+    private static final ModelMapper modelMapper = new ModelMapper();
+
 
     @Before
     public void setup() throws Exception {
@@ -80,5 +84,23 @@ public class ServeurTest {
 
         List listEmpruntByDate = serveur.getEmpruntByDate(date);
         assertEquals(emprunts, listEmpruntByDate);
+    }
+
+    @Test
+    public void checkEmprunt() {
+        Date date = new Date();
+        EmpruntDTO empruntDTO = new EmpruntDTO();
+        empruntDTO.setId((long)1);
+        empruntDTO.setDate(date);
+        empruntDTO.setIdAbonne((long)2);
+        empruntDTO.setIdTrottinette((long)1);
+
+        Emprunt emprunt = modelMapper.map(empruntDTO, Emprunt.class);
+        assertEquals(empruntDTO.getId(), emprunt.getId());
+        assertEquals(empruntDTO.getDate(), emprunt.getDate());
+        assertEquals(empruntDTO.getIdAbonne(), emprunt.getIdAbonne());
+        assertEquals(empruntDTO.getIdTrottinette(), emprunt.getIdTrottinette());
+
+        serveur.getAllempruntAsEmpruntDTO();
     }
 }

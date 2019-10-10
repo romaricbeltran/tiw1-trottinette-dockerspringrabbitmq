@@ -1,5 +1,7 @@
 package tiw1.emprunt.serveur;
 
+import org.modelmapper.ModelMapper;
+import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.persistence.AbonneDAO;
@@ -7,6 +9,7 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,8 @@ public class Serveur {
 
     private AbonneDAO abonneDAO;
     private EmpruntDAO empruntDAO;
+    private EmpruntDTO empruntDTO;
+    private ModelMapper modelMapper;
 
     public Serveur() throws Exception {
         TrottinetteLoader.load();
@@ -74,5 +79,28 @@ public class Serveur {
 
     public List getEmpruntByDate(Date date) {
         return empruntDAO.getEmpruntByDate(date);
+    }
+
+    public List<EmpruntDTO> getAllempruntAsEmpruntDTO() {
+        List<EmpruntDTO> empruntDTOs = new ArrayList<EmpruntDTO>();
+        for(Object emprunt : getAllEmprunt()) {
+            empruntDTOs.add(constructEmpruntDTO((Emprunt) emprunt));
+        }
+        System.out.println(empruntDTOs.get(0).getId());
+        System.out.println(empruntDTOs.get(0).getDate());
+        System.out.println("abo " + empruntDTOs.get(0).getIdAbonne());
+        System.out.println("trot " +empruntDTOs.get(0).getIdTrottinette());
+
+        return empruntDTOs;
+    }
+
+    private EmpruntDTO constructEmpruntDTO(Emprunt emprunt) {
+        EmpruntDTO empruntDTO = new EmpruntDTO();
+        empruntDTO.setId(emprunt.getId());
+        empruntDTO.setDate(emprunt.getDate());
+        empruntDTO.setIdTrottinette(emprunt.getIdTrottinette());
+        empruntDTO.setIdAbonne(emprunt.getIdAbonne());
+
+        return empruntDTO;
     }
 }
