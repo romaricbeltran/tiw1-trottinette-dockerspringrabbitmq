@@ -61,7 +61,16 @@ public class EmpruntDAO implements DAO<Emprunt> {
 
     @Override
     public void delete(Emprunt emprunt) {
-        throw new UnsupportedOperationException();
+        Emprunt persisted = findById(emprunt.getId());
+        if (persisted != null) {
+            em.getTransaction().begin();
+            em.remove(persisted);
+            em.getTransaction().commit();
+        }
+    }
+
+    private Emprunt findById(long id) {
+        return em.find(Emprunt.class, id);
     }
 
     public List getEmpruntByDate(Date date) {

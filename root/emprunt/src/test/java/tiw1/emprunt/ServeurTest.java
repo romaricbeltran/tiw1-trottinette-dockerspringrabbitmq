@@ -2,7 +2,6 @@ package tiw1.emprunt;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.modelmapper.ModelMapper;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,13 +18,13 @@ import static org.junit.Assert.assertFalse;
 public class ServeurTest {
 
     private Serveur serveur;
-    private static final ModelMapper modelMapper = new ModelMapper();
-
+    private Date date;
 
     @Before
     public void setup() throws Exception {
         // Instanciation du serveur
         serveur = new Serveur();
+        date = new Date();
     }
 
     @Test
@@ -66,8 +64,6 @@ public class ServeurTest {
     public void testServeurEmprunt() {
         System.out.println("testServeurEmprunt");
 
-        Date date = new Date();
-
         List<Emprunt> emprunts = new ArrayList<>();
         Emprunt emprunt1 = new Emprunt((long) 1, date, (long) 2, (long) 1);
         emprunts.add(emprunt1);
@@ -88,25 +84,24 @@ public class ServeurTest {
     }
 
     @Test
-    public void checkEmprunt() {
-        EmpruntDTO empruntDTO = new EmpruntDTO((long)2, (long)1);
+    public void testEmpruntDTO() {
 
-        Emprunt emprunt = modelMapper.map(empruntDTO, Emprunt.class);
-        assertEquals(empruntDTO.getIdAbonne(), emprunt.getIdAbonne());
-        assertEquals(empruntDTO.getIdTrottinette(), emprunt.getIdTrottinette());
-    }
+        // EmpruntDTO crée l'emprunt
 
-    @Test
-    public void addEmprunt() {
-        EmpruntDTO empruntDTO = new EmpruntDTO((long)2, (long)1);
+        EmpruntDTO empruntDTO = new EmpruntDTO((long) 2, date, (long) 2, (long) 1);
+        serveur.saveEmprunt(empruntDTO.createEmprunt());
 
-        serveur.createEmprunt(empruntDTO);
+        Emprunt empruntTestSave = empruntDTO.createEmprunt();
 
-        Emprunt emprunt = (Emprunt) serveur.getAllEmprunt().get(1);
+        // On récupère le DTO de l'emprunt et on accède aux infos
 
-        List listEmprunt = serveur.getAllEmprunt();
-        assertEquals(2, listEmprunt.size());
-        assertEquals(Optional.of((long) 2), Optional.ofNullable(emprunt.getIdAbonne()));
-        assertEquals(Optional.of((long) 1), Optional.ofNullable(emprunt.getIdTrottinette()));
+        EmpruntDTO empruntDTO1 = serveur.getEmpruntDTO(empruntTestSave);
+
+        assertEquals(empruntDTO.getId(), empruntDTO1.getId());
+        assertEquals(empruntDTO.getDate(), empruntDTO1.getDate());
+        assertEquals(empruntDTO.getIdAbonne(), empruntDTO1.getIdAbonne());
+        assertEquals(empruntDTO.getIdTrottinette(), empruntDTO1.getIdTrottinette());
+
+        serveur.deleteEmprunt(empruntTestSave);
     }
 }

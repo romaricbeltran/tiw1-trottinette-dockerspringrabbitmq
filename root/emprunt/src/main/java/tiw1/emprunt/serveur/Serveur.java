@@ -1,6 +1,6 @@
 package tiw1.emprunt.serveur;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
@@ -17,6 +17,9 @@ public class Serveur {
 
     private AbonneDAO abonneDAO;
     private EmpruntDAO empruntDAO;
+
+    private static final ModelMapper modelMapper = new ModelMapper();
+
 
     public Serveur() throws Exception {
         TrottinetteLoader.load();
@@ -78,14 +81,9 @@ public class Serveur {
         return empruntDAO.getEmpruntByDate(date);
     }
 
-    public void createEmprunt(EmpruntDTO empruntDTO) {
-        Date date = new Date();
-        Emprunt emprunt = new Emprunt();
+    // EmpruntDTO
 
-        emprunt.setDate(date);
-        emprunt.setIdAbonne(empruntDTO.getIdAbonne());
-        emprunt.setIdTrottinette(empruntDTO.getIdTrottinette());
-
-        saveEmprunt(emprunt);
+    public EmpruntDTO getEmpruntDTO(Emprunt emprunt) {
+        return modelMapper.map(emprunt, EmpruntDTO.class);
     }
 }
