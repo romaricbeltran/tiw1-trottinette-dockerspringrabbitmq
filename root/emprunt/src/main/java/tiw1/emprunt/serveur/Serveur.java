@@ -1,6 +1,8 @@
 package tiw1.emprunt.serveur;
 
-import org.modelmapper.ModelMapper;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
+import tiw1.emprunt.controleur.Controleur;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
@@ -11,79 +13,104 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class Serveur {
 
-    private AbonneDAO abonneDAO;
-    private EmpruntDAO empruntDAO;
+    private static Controleur CONTROLEUR;
 
-    private static final ModelMapper modelMapper = new ModelMapper();
+    private static final String NOM_COMPAGNIE = "ELIM";
 
 
-    public Serveur() throws Exception {
-        TrottinetteLoader.load();
-        abonneDAO = new AbonneDAO();
-        empruntDAO = new EmpruntDAO();
+    private DefaultPicoContainer conteneurRacine;
+
+    public Serveur() {
+        conteneurRacine = new DefaultPicoContainer(new Caching());
+        conteneurRacine.addComponent(EmpruntDAO.class);
+        conteneurRacine.addComponent(AbonneDAO.class);
+        conteneurRacine.addComponent(TrottinetteLoader.class);
+        conteneurRacine.addComponent(NOM_COMPAGNIE);
+        conteneurRacine.addComponent(Controleur.class);
+
+        CONTROLEUR = conteneurRacine.getComponent(Controleur.class);
+
+        CONTROLEUR.start();
     }
 
-    // Trottinette
-
-    public boolean getTrottinetteDisponibilite(long id) {
-        return TrottinetteLoader.getTrottinetteById(id).isDisponible();
-    }
-
-    // Abonne
-
-    public Optional getAbonne(long id) {
-        return abonneDAO.get(id);
-    }
-
-    public List getAllAbonne() {
-        return abonneDAO.getAll();
-    }
-
-    public void saveAbonne(Abonne abonne) throws IOException {
-        abonneDAO.save(abonne);
-    }
-
-    public void updateAbonne(Abonne abonne) throws IOException {
-        abonneDAO.update(abonne);
-    }
-
-    public void deleteAbonne(Abonne abonne) throws IOException {
-        abonneDAO.delete(abonne);
-    }
-
-    // Emprunt
-
-    public Optional getEmprunt(long id) {
-        return empruntDAO.get(id);
-    }
-
-    public List getAllEmprunt() {
-        return empruntDAO.getAll();
-    }
-
-    public void saveEmprunt(Emprunt emprunt) {
-        empruntDAO.save(emprunt);
-    }
-
-    public void updateEmprunt(Emprunt emprunt) {
-        empruntDAO.update(emprunt);
-    }
-
-    public void deleteEmprunt(Emprunt emprunt) {
-        empruntDAO.delete(emprunt);
-    }
-
-    public List getEmpruntByDate(Date date) {
-        return empruntDAO.getEmpruntByDate(date);
+    public Controleur getControleur() {
+        return conteneurRacine.getComponent(Controleur.class);
     }
 
     // EmpruntDTO
 
     public EmpruntDTO getEmpruntDTO(Emprunt emprunt) {
-        return modelMapper.map(emprunt, EmpruntDTO.class);
+        return getControleur().getEmpruntDTO(emprunt);
+    }
+
+    // Trottinette
+
+    public boolean getTrottinetteDisponibilite(long id) {
+        return getControleur().getTrottinetteDisponibilite(id);
+    }
+
+    // Abonne
+
+    public List getAllAbonne() {
+        return getControleur().getAllAbonne();
+    }
+
+    public void saveAbonne(Abonne abonne) throws IOException {
+        getControleur().saveAbonne(abonne);
+    }
+
+    public void updateAbonne(Abonne abonne) throws IOException {
+        getControleur().updateAbonne(abonne);
+    }
+
+    public void deleteAbonne(Abonne abonne) throws IOException {
+        getControleur().deleteAbonne(abonne);
+    }
+
+    // Emprunt
+
+    public List getAllEmprunt() {
+        return getControleur().getAllEmprunt();
+    }
+
+    public void saveEmprunt(Emprunt emprunt) {
+        getControleur().saveEmprunt(emprunt);
+    }
+
+    public void updateEmprunt(Emprunt emprunt) {
+        getControleur().updateEmprunt(emprunt);
+    }
+
+    public void deleteEmprunt(Emprunt emprunt) {
+        getControleur().deleteEmprunt(emprunt);
+    }
+
+    public List getEmpruntByDate(Date date) {
+        return getControleur().getEmpruntByDate(date);
+    }
+
+    // Getters/Setters
+
+    public static Controleur getCONTROLEUR() {
+        return CONTROLEUR;
+    }
+
+    public static void setCONTROLEUR(Controleur CONTROLEUR) {
+        Serveur.CONTROLEUR = CONTROLEUR;
+    }
+
+    public static String getNomCompagnie() {
+        return NOM_COMPAGNIE;
+    }
+
+    public DefaultPicoContainer getConteneurRacine() {
+        return conteneurRacine;
+    }
+
+    public void setConteneurRacine(DefaultPicoContainer conteneurRacine) {
+        this.conteneurRacine = conteneurRacine;
     }
 }
