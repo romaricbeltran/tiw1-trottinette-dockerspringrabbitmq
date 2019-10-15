@@ -2,6 +2,8 @@ package tiw1.emprunt.controleur;
 
 import org.modelmapper.ModelMapper;
 import org.picocontainer.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
@@ -12,130 +14,161 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class Controleur implements Startable {
 
-    private Logger logger = Logger.getLogger("Controleur");
+    private static final Logger LOGGER_CONTROLEUR = LoggerFactory.getLogger(Controleur.class);
     private static final ModelMapper modelMapper = new ModelMapper();
 
     private TrottinetteLoader trottinetteLoader;
     private AbonneDAO abonneDAO;
     private EmpruntDAO empruntDAO;
 
-    public Controleur() {
+    public Controleur() throws Exception {
         trottinetteLoader = new TrottinetteLoader();
-        try {
-            abonneDAO = new AbonneDAO();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TrottinetteLoader.load();
+        abonneDAO = new AbonneDAO();
         empruntDAO = new EmpruntDAO();
     }
 
-    ///TODO Faut mettre en place le reflection pour scanner la dao utilisée
     @Override
     public void start() {
-        logger.info("Composant Controleur démarré. Objet d'accès aux données : " + abonneDAO);
+        LOGGER_CONTROLEUR.info("Composant Controleur démarré. Objet d'accès aux données : " + this);
     }
 
     @Override
     public void stop() {
-        logger.info("Composant Controleur arrêté");
+        LOGGER_CONTROLEUR.info("Composant Controleur arrêté");
+    }
+
+    public Object process(String commande, Map<String, Object> parametres) throws IOException {
+        switch (commande) {
+            case "GetAbonne":
+                return getAbonne((long) parametres.get("id"));
+            case "GetAllAbonne":
+                return getAllAbonne();
+            case "SaveAbonne":
+                saveAbonne((Abonne) parametres.get("abonne"));
+                return null;
+            case "DeleteAbonne":
+                deleteAbonne((Abonne) parametres.get("abonne"));
+                return null;
+
+            case "GetEmprunt":
+                return getEmprunt((long) parametres.get("id"));
+            case "GetEmpruntByDate":
+                return getEmpruntByDate((Date) parametres.get("date"));
+            case "GetAllEmprunt":
+                return getAllEmprunt();
+            case "SaveEmprunt":
+                saveEmprunt((Emprunt) parametres.get("emprunt"));
+                return null;
+            case "DeleteEmprunt":
+                deleteEmprunt((Emprunt) parametres.get("emprunt"));
+                return null;
+
+            case "GetEmpruntDTO":
+                return getEmpruntDTO((Emprunt) parametres.get("emprunt"));
+            case "SaveEmpruntFromDTO":
+                return saveEmpruntFromDTO((EmpruntDTO) parametres.get("empruntDTO"));
+
+            case "GetTrottinetteDisponibilite":
+                return getTrottinetteDisponibilite((long) parametres.get("id"));
+
+            default:
+                return null;
+        }
     }
 
     // EmpruntDTO
 
-    public EmpruntDTO getEmpruntDTO(Emprunt emprunt) {
+    private EmpruntDTO getEmpruntDTO(Emprunt emprunt) {
         return modelMapper.map(emprunt, EmpruntDTO.class);
+    }
+
+    private Emprunt saveEmpruntFromDTO(EmpruntDTO empruntDTO) {
+        return empruntDTO.createEmprunt();
     }
 
     // Trottinette
 
-    public boolean getTrottinetteDisponibilite(long id) {
+    private boolean getTrottinetteDisponibilite(long id) {
         return TrottinetteLoader.getTrottinetteById(id).isDisponible();
     }
 
     // Abonne
 
-    public Optional getAbonne(long id) {
+    private Optional getAbonne(long id) {
         return abonneDAO.get(id);
     }
 
-    public List getAllAbonne() {
+    private List getAllAbonne() {
         return abonneDAO.getAll();
     }
 
-    public void saveAbonne(Abonne abonne) throws IOException {
+    private void saveAbonne(Abonne abonne) throws IOException {
         abonneDAO.save(abonne);
     }
 
-    public void updateAbonne(Abonne abonne) throws IOException {
+    private void updateAbonne(Abonne abonne) throws IOException {
         abonneDAO.update(abonne);
     }
 
-    public void deleteAbonne(Abonne abonne) throws IOException {
+    private void deleteAbonne(Abonne abonne) throws IOException {
         abonneDAO.delete(abonne);
     }
 
     // Emprunt
 
-    public Optional getEmprunt(long id) {
+    private Optional getEmprunt(long id) {
         return empruntDAO.get(id);
     }
 
-    public List getAllEmprunt() {
+    private List getAllEmprunt() {
         return empruntDAO.getAll();
     }
 
-    public void saveEmprunt(Emprunt emprunt) {
+    private void saveEmprunt(Emprunt emprunt) {
         empruntDAO.save(emprunt);
     }
 
-    public void updateEmprunt(Emprunt emprunt) {
+    private void updateEmprunt(Emprunt emprunt) {
         empruntDAO.update(emprunt);
     }
 
-    public void deleteEmprunt(Emprunt emprunt) {
+    private void deleteEmprunt(Emprunt emprunt) {
         empruntDAO.delete(emprunt);
     }
 
-    public List getEmpruntByDate(Date date) {
+    private List getEmpruntByDate(Date date) {
         return empruntDAO.getEmpruntByDate(date);
     }
 
     // Getters/Setters
 
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-
-    public TrottinetteLoader getTrottinetteLoader() {
+    private TrottinetteLoader getTrottinetteLoader() {
         return trottinetteLoader;
     }
 
-    public void setTrottinetteLoader(TrottinetteLoader trottinetteLoader) {
+    private void setTrottinetteLoader(TrottinetteLoader trottinetteLoader) {
         this.trottinetteLoader = trottinetteLoader;
     }
 
-    public AbonneDAO getAbonneDAO() {
+    private AbonneDAO getAbonneDAO() {
         return abonneDAO;
     }
 
-    public void setAbonneDAO(AbonneDAO abonneDAO) {
+    private void setAbonneDAO(AbonneDAO abonneDAO) {
         this.abonneDAO = abonneDAO;
     }
 
-    public EmpruntDAO getEmpruntDAO() {
+    private EmpruntDAO getEmpruntDAO() {
         return empruntDAO;
     }
 
-    public void setEmpruntDAO(EmpruntDAO empruntDAO) {
+    private void setEmpruntDAO(EmpruntDAO empruntDAO) {
         this.empruntDAO = empruntDAO;
     }
 }

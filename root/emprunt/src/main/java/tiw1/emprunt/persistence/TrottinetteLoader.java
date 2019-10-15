@@ -1,6 +1,9 @@
 package tiw1.emprunt.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.picocontainer.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tiw1.emprunt.model.Trottinette;
 
 import java.util.Arrays;
@@ -20,7 +23,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 
-public class TrottinetteLoader {
+public class TrottinetteLoader implements Startable {
+    private static final Logger LOGGER_TROTTINETTE = LoggerFactory.getLogger(TrottinetteLoader.class);
+
     private static final String MAINTENANCE_URL = "http://localhost:8080/trottinette/";
     private static Map<Long, Trottinette> trottinettes = null;
 
@@ -83,5 +88,20 @@ public class TrottinetteLoader {
 
     public static Trottinette getTrottinetteById(long id) {
         return trottinettes.get(id);
+    }
+
+    @Override
+    public void start() {
+        try {
+            load();
+            LOGGER_TROTTINETTE.info("Composant TrottinetteLoader démarré. Objet d'accès aux données : " + this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() {
+        LOGGER_TROTTINETTE.info("Composant TrottinetteLoader stoppé.");
     }
 }
