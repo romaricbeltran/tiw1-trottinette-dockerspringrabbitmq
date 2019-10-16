@@ -4,9 +4,9 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 
-public class TrottinetteResource extends Ressource {
+public class TrottinetteRessource extends Ressource {
 
-    public TrottinetteResource() {
+    public TrottinetteRessource() {
     }
 
     //getTrottinetteDisponibilite

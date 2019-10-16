@@ -23,14 +23,14 @@ public abstract class Ressource implements ControleurInterface {
             case "delete":
                 return delete(parametres);
             case "getEmpruntByDate":
-                EmpruntResource empruntResourceGEBD = new EmpruntResource();
-                return empruntResourceGEBD.getEmpruntByDate(parametres);
+                EmpruntRessource empruntRessourceGEBD = new EmpruntRessource();
+                return empruntRessourceGEBD.getEmpruntByDate(parametres);
             case "getEmpruntDTO":
-                EmpruntResource empruntResourceGEDTO = new EmpruntResource();
-                return empruntResourceGEDTO.getEmpruntDTO(parametres);
+                EmpruntRessource empruntRessourceGEDTO = new EmpruntRessource();
+                return empruntRessourceGEDTO.getEmpruntDTO(parametres);
             case "saveEmpruntFromDTO":
-                EmpruntResource empruntResourceSEFDTO = new EmpruntResource();
-                return empruntResourceSEFDTO.saveEmpruntFromDTO(parametres);
+                EmpruntRessource empruntRessourceSEFDTO = new EmpruntRessource();
+                return empruntRessourceSEFDTO.saveEmpruntFromDTO(parametres);
             default:
                 return null;
         }

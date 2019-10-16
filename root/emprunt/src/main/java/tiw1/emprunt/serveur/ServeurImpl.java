@@ -6,19 +6,20 @@ import tiw1.emprunt.controleur.Controleur;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
-import tiw1.emprunt.uniformisation.AbonneResource;
-import tiw1.emprunt.uniformisation.EmpruntResource;
-import tiw1.emprunt.uniformisation.TrottinetteResource;
+import tiw1.emprunt.uniformisation.AbonneRessource;
+import tiw1.emprunt.uniformisation.EmpruntRessource;
+import tiw1.emprunt.uniformisation.TrottinetteRessource;
 
 import java.io.IOException;
 import java.util.Map;
+
+import static org.picocontainer.Characteristics.CACHE;
 
 public class ServeurImpl implements Serveur {
 
     private static final String NOM_COMPAGNIE = "ELIM";
     private Controleur controleur;
 
-    //TODO : CACHE DES RESSOURCES + CONSTRUCTEUR DU CONTROLEUR AVEC LES RESSOURCES DU CONTAINER
     public ServeurImpl() {
         DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
         conteneurRacine.addComponent(EmpruntDAO.class);
@@ -26,9 +27,9 @@ public class ServeurImpl implements Serveur {
         conteneurRacine.addComponent(TrottinetteLoader.class);
         conteneurRacine.addComponent("nomCompagnie", NOM_COMPAGNIE);
 
-        conteneurRacine.addComponent(AbonneResource.class);
-        conteneurRacine.addComponent(EmpruntResource.class);
-        conteneurRacine.addComponent(TrottinetteResource.class);
+        conteneurRacine.as(CACHE).addComponent(AbonneRessource.class);
+        conteneurRacine.as(CACHE).addComponent(EmpruntRessource.class);
+        conteneurRacine.as(CACHE).addComponent(TrottinetteRessource.class);
 
         conteneurRacine.addComponent(Controleur.class);
         conteneurRacine.start();

@@ -6,11 +6,11 @@ import tiw1.emprunt.persistence.AbonneDAO;
 import java.io.IOException;
 import java.util.Map;
 
-public class AbonneResource extends Ressource {
+public class AbonneRessource extends Ressource {
 
     private AbonneDAO abonneDAO;
 
-    public AbonneResource() {
+    public AbonneRessource() {
         abonneDAO = new AbonneDAO();
     }
 

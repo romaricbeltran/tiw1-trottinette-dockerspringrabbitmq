@@ -9,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class EmpruntResource extends Ressource {
+public class EmpruntRessource extends Ressource {
 
     private static final ModelMapper modelMapper = new ModelMapper();
     private EmpruntDAO empruntDAO;
 
-    public EmpruntResource() {
+    public EmpruntRessource() {
         empruntDAO = new EmpruntDAO();
     }
 
