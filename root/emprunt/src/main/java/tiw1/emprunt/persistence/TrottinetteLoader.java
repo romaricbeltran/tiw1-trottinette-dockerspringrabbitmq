@@ -24,9 +24,9 @@ import org.apache.http.util.EntityUtils;
 
 
 public class TrottinetteLoader implements Startable {
-    private static final Logger LOGGER_TROTTINETTE = LoggerFactory.getLogger(TrottinetteLoader.class);
 
     private static final String MAINTENANCE_URL = "http://localhost:8080/trottinette/";
+    private static final Logger LOGGER_TROTTINETTE = LoggerFactory.getLogger(TrottinetteLoader.class);
     private static Map<Long, Trottinette> trottinettes = null;
 
     public static void load() throws Exception {

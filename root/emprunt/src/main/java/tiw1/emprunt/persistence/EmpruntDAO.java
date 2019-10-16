@@ -1,5 +1,8 @@
 package tiw1.emprunt.persistence;
 
+import org.picocontainer.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tiw1.emprunt.model.Emprunt;
 
 import javax.persistence.EntityManager;
@@ -10,11 +13,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class EmpruntDAO implements DAO<Emprunt> {
+public class EmpruntDAO implements DAO<Emprunt>, Startable {
+
     @PersistenceContext
     private EntityManager em;
-
     private static final String PERSISTENCE_UNIT_NAME = "test-pu";
+    private static final Logger LOGGER_EMPRUNT = LoggerFactory.getLogger(EmpruntDAO.class);
 
     public EmpruntDAO() {
         em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
@@ -76,5 +80,19 @@ public class EmpruntDAO implements DAO<Emprunt> {
     public List getEmpruntByDate(Date date) {
         List<Emprunt> emprunts = em.createNamedQuery("empruntByDate", Emprunt.class).setParameter("date", date).getResultList();
         return emprunts;
+    }
+
+    @Override
+    public void start() {
+        try {
+            LOGGER_EMPRUNT.info("Composant EmpruntDAO démarré. Objet d'accès aux données : " + this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() {
+        LOGGER_EMPRUNT.info("Composant EmpruntDAO arrêté.");
     }
 }

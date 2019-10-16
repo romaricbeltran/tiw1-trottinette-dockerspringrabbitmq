@@ -6,11 +6,10 @@ import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.serveur.Serveur;
+import tiw1.emprunt.serveur.ServeurImpl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,86 +21,106 @@ public class ServeurTest {
 
     @Before
     public void setup() throws Exception {
-        // Instanciation du serveur
-        serveur = new Serveur();
+        // Instanciation du serveur avec pattern Isolation
+        serveur = new ServeurImpl();
         date = new Date();
     }
 
     @Test
-    public void testServeurGetTrottinetteDisponibilite() {
+    public void testServeurGetTrottinetteDisponibilite() throws IOException {
         System.out.println("testServeurGetTrottinetteDisponibilite");
-        assertFalse(serveur.getTrottinetteDisponibilite(1));
+
+        Map<String, Object> idTrottinette = new HashMap<>();
+        idTrottinette.put("id", (long) 1);
+
+        assertFalse((Boolean) serveur.processRequest("trottinette","get", idTrottinette));
     }
 
     @Test
     public void testServeurAbonne() throws IOException {
         System.out.println("testServeurAbonne");
 
-        List listAbonne = serveur.getAllAbonne();
-
-        Abonne alice = new Abonne((long) 1, "Alice", new Date(), new Date());
-        Abonne ben = new Abonne((long) 3, "Ben", new Date(), new Date());
-        Abonne charles = new Abonne((long) 4, "Charles", new Date(), new Date());
+        List listAbonne = (List) serveur.processRequest("abonne","getAll", null);
 
         // Création
         System.out.println("testServeurAbonneCreation");
 
-        serveur.saveAbonne(alice);
-        serveur.saveAbonne(ben);
-        serveur.saveAbonne(charles);
+        Map<String, Object> alice = new HashMap<>();
+        alice.put("abonne", new Abonne((long) 1, "Alice", date, date));
+
+        Map<String, Object> ben = new HashMap<>();
+        ben.put("abonne", new Abonne((long) 3, "Ben", date, date));
+
+        Map<String, Object> charles = new HashMap<>();
+        charles.put("abonne", new Abonne((long) 4, "Charles", date, date));
+
+        serveur.processRequest("abonne","save", alice);
+        serveur.processRequest("abonne","save", ben);
+        serveur.processRequest("abonne","save", charles);
         assertEquals(4, listAbonne.size());
 
         // Suppression
         System.out.println("testServeurAbonneSuppression");
 
-        serveur.deleteAbonne(alice);
-        serveur.deleteAbonne(ben);
-        serveur.deleteAbonne(charles);
+        serveur.processRequest("abonne","delete", alice);
+        serveur.processRequest("abonne","delete", ben);
+        serveur.processRequest("abonne","delete", charles);
         assertEquals(1, listAbonne.size());
-    }
 
-    @Test
-    public void testServeurEmprunt() {
         System.out.println("testServeurEmprunt");
 
-        List<Emprunt> emprunts = new ArrayList<>();
+        List<Emprunt> listEmprunts = new ArrayList<>();
         Emprunt emprunt1 = new Emprunt((long) 1, date, (long) 2, (long) 1);
-        emprunts.add(emprunt1);
+        listEmprunts.add(emprunt1);
 
         // Création
         System.out.println("testServeurEmpruntCreation");
 
-        serveur.saveEmprunt(emprunt1);
-        List listEmprunt = serveur.getAllEmprunt();
+        Map<String, Object> emprunt = new HashMap<>();
+        emprunt.put("emprunt", emprunt1);
+
+        serveur.processRequest("emprunt","save", emprunt);
+
+        List listEmprunt = (List) serveur.processRequest("emprunt","getAll", null);
         assertEquals(1, listEmprunt.size());
 
 
         // Récupération par date
         System.out.println("testServeurGetEmpruntByDate");
 
-        List listEmpruntByDate = serveur.getEmpruntByDate(date);
-        assertEquals(emprunts, listEmpruntByDate);
+        Map<String, Object> dateMap = new HashMap<>();
+        dateMap.put("date", date);
+
+        List listEmpruntByDate = (List) serveur.processRequest("emprunt","getEmpruntByDate", dateMap);
+        assertEquals(listEmprunts, listEmpruntByDate);
     }
 
     @Test
-    public void testEmpruntDTO() {
+    public void testEmpruntDTO() throws IOException {
 
         // EmpruntDTO crée l'emprunt
 
-        EmpruntDTO empruntDTO = new EmpruntDTO((long) 2, date, (long) 2, (long) 1);
-        serveur.saveEmprunt(empruntDTO.createEmprunt());
+        EmpruntDTO dto = new EmpruntDTO((long) 2, date, (long) 2, (long) 1);
 
-        Emprunt empruntTestSave = empruntDTO.createEmprunt();
+        Map<String, Object> empruntDTO = new HashMap<>();
+        empruntDTO.put("empruntDTO", dto);
+
+        Emprunt emprunt = (Emprunt) serveur.processRequest("emprunt","saveEmpruntFromDTO", empruntDTO);
+
+
+        Map<String, Object> empruntFromDTO = new HashMap<>();
+        empruntFromDTO.put("emprunt", emprunt);
 
         // On récupère le DTO de l'emprunt et on accède aux infos
 
-        EmpruntDTO empruntDTO1 = serveur.getEmpruntDTO(empruntTestSave);
+        EmpruntDTO empruntDTOFromBase = (EmpruntDTO) serveur.processRequest("emprunt","getEmpruntDTO", empruntFromDTO);
 
-        assertEquals(empruntDTO.getId(), empruntDTO1.getId());
-        assertEquals(empruntDTO.getDate(), empruntDTO1.getDate());
-        assertEquals(empruntDTO.getIdAbonne(), empruntDTO1.getIdAbonne());
-        assertEquals(empruntDTO.getIdTrottinette(), empruntDTO1.getIdTrottinette());
+        assertEquals((long) 2, (long) empruntDTOFromBase.getId());
+        assertEquals(date, empruntDTOFromBase.getDate());
+        assertEquals((long) 2, (long) empruntDTOFromBase.getIdAbonne());
+        assertEquals((long) 1, (long) empruntDTOFromBase.getIdTrottinette());
 
-        serveur.deleteEmprunt(empruntTestSave);
+        // On supprime l'emprunt
+        serveur.processRequest("emprunt","delete", empruntFromDTO);
     }
 }

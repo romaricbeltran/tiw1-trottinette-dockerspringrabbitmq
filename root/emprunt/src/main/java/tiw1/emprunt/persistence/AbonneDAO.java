@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.model.Abonne;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,20 +19,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class AbonneDAO implements DAO<Abonne>, Startable {
-    private static final Logger LOGGER_ABONNE = LoggerFactory.getLogger(TrottinetteLoader.class);
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private static final Logger LOGGER_ABONNE = LoggerFactory.getLogger(AbonneDAO.class);
     private final String ABONNES_JSON = "abonnes.json";
     private Path path = Paths.get(ABONNES_JSON);
-
-
+    private ObjectMapper mapper = new ObjectMapper();
     private static List<Abonne> abonnes = new ArrayList<>();
 
     public AbonneDAO() {}
 
     @Override
     public Optional get(long id) {
-        for(Abonne abonne : abonnes) {
+        for (Abonne abonne : abonnes) {
             if (abonne.getId() == id) {
                 return Optional.of(abonne);
             }
@@ -67,7 +67,7 @@ public class AbonneDAO implements DAO<Abonne>, Startable {
         persist();
     }
 
-    private Abonne findById (Long id) {
+    private Abonne findById(Long id) {
         return abonnes.stream().filter(a -> (id.equals(a.getId()))).findFirst().orElse(null);
     }
 
@@ -102,6 +102,6 @@ public class AbonneDAO implements DAO<Abonne>, Startable {
 
     @Override
     public void stop() {
-        LOGGER_ABONNE.info("Composant AbonneDAO stoppé.");
+        LOGGER_ABONNE.info("Composant AbonneDAO arrêté.");
     }
 }
