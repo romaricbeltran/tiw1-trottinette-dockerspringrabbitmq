@@ -2,6 +2,8 @@ package tiw1.emprunt.serveur;
 
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.behaviors.Caching;
+import tiw1.emprunt.contexte.AbonneContexte;
+import tiw1.emprunt.contexte.AbonneContexteImpl;
 import tiw1.emprunt.controleur.Controleur;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -19,9 +21,12 @@ public class ServeurImpl implements Serveur {
 
     private static final String NOM_COMPAGNIE = "ELIM";
     private Controleur controleur;
+    private AbonneContexte contexte;
 
     public ServeurImpl() {
         DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
+        conteneurRacine.addComponent(AbonneContexte.class, AbonneContexteImpl.class);
+        contexte = conteneurRacine.getComponent(AbonneContexte.class);
         conteneurRacine.addComponent(EmpruntDAO.class);
         conteneurRacine.addComponent(AbonneDAO.class);
         conteneurRacine.addComponent(TrottinetteLoader.class);
