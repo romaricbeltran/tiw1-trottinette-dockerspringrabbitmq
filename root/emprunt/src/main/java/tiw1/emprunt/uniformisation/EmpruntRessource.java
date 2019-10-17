@@ -1,6 +1,7 @@
 package tiw1.emprunt.uniformisation;
 
 import org.modelmapper.ModelMapper;
+import tiw1.emprunt.contexte.Contexte;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -14,8 +15,9 @@ public class EmpruntRessource extends Ressource {
     private static final ModelMapper modelMapper = new ModelMapper();
     private EmpruntDAO empruntDAO;
 
-    public EmpruntRessource() {
-        empruntDAO = new EmpruntDAO();
+    public EmpruntRessource(Contexte contexte) {
+        super(contexte);
+        empruntDAO = (EmpruntDAO) contexte.get(EmpruntDAO.class.getSimpleName());
     }
 
     protected List getEmpruntByDate(Map<String, Object> parametres) {

@@ -1,18 +1,6 @@
 package tiw1.emprunt.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.picocontainer.Startable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tiw1.emprunt.model.Trottinette;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import java.io.IOException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -21,6 +9,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.picocontainer.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.model.Trottinette;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class TrottinetteLoader implements Startable {
@@ -28,6 +27,12 @@ public class TrottinetteLoader implements Startable {
     private static final String MAINTENANCE_URL = "http://localhost:8080/trottinette/";
     private static final Logger LOGGER_TROTTINETTE = LoggerFactory.getLogger(TrottinetteLoader.class);
     private static Map<Long, Trottinette> trottinettes = null;
+    private Contexte contexte;
+
+    public TrottinetteLoader(Contexte contexte) {
+        this.contexte = contexte;
+        contexte.save(getClass().getSimpleName(), this);
+    }
 
     public static void load() throws Exception {
         Map<Long, Trottinette> temp = new HashMap<>();
@@ -49,7 +54,7 @@ public class TrottinetteLoader implements Startable {
     /**
      * This example demonstrates the use of the {@link ResponseHandler} to simplify
      * the process of processing the HTTP response and releasing associated resources.
-     *
+     * <p>
      * Source : Apache HTTP Components
      * http://hc.apache.org/httpcomponents-client-ga/examples.html -> Response handling
      */

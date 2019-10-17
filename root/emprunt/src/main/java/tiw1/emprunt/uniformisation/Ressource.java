@@ -2,6 +2,7 @@ package tiw1.emprunt.uniformisation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.Contexte;
 import tiw1.emprunt.controleur.ControleurInterface;
 
 import java.io.IOException;
@@ -10,6 +11,12 @@ import java.util.Map;
 public abstract class Ressource implements ControleurInterface {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    protected Contexte contexte;
+
+    public Ressource(Contexte contexte) {
+        this.contexte = contexte;
+        contexte.save(getClass().getSimpleName(),this);
+    }
 
     @Override
     public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException {
@@ -23,13 +30,13 @@ public abstract class Ressource implements ControleurInterface {
             case "delete":
                 return delete(parametres);
             case "getEmpruntByDate":
-                EmpruntRessource empruntRessourceGEBD = new EmpruntRessource();
+                EmpruntRessource empruntRessourceGEBD = new EmpruntRessource(contexte);
                 return empruntRessourceGEBD.getEmpruntByDate(parametres);
             case "getEmpruntDTO":
-                EmpruntRessource empruntRessourceGEDTO = new EmpruntRessource();
+                EmpruntRessource empruntRessourceGEDTO = new EmpruntRessource(contexte);
                 return empruntRessourceGEDTO.getEmpruntDTO(parametres);
             case "saveEmpruntFromDTO":
-                EmpruntRessource empruntRessourceSEFDTO = new EmpruntRessource();
+                EmpruntRessource empruntRessourceSEFDTO = new EmpruntRessource(contexte);
                 return empruntRessourceSEFDTO.saveEmpruntFromDTO(parametres);
             default:
                 return null;

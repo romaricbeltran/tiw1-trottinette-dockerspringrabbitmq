@@ -2,6 +2,8 @@ package tiw1.emprunt;
 
 import org.junit.Before;
 import org.junit.Test;
+import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.contexte.ContexteImpl;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.persistence.AbonneDAO;
 
@@ -12,10 +14,13 @@ import static org.junit.Assert.*;
 
 public class AbonneDAOTest {
     private AbonneDAO dao = null;
+    private Contexte contexte;
 
     @Before
     public void initDao() throws IOException {
-        dao = new AbonneDAO();
+        contexte = new ContexteImpl();
+        dao = new AbonneDAO(contexte);
+        dao.start();
     }
 
     @Test

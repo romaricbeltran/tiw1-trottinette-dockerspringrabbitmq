@@ -1,12 +1,14 @@
 package tiw1.emprunt.uniformisation;
 
+import tiw1.emprunt.contexte.Contexte;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 
 public class TrottinetteRessource extends Ressource {
 
-    public TrottinetteRessource() {
+    public TrottinetteRessource(Contexte contexte) {
+        super(contexte);
     }
 
     //getTrottinetteDisponibilite

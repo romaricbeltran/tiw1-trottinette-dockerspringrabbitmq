@@ -3,11 +3,11 @@ package tiw1.emprunt.persistence;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.Contexte;
 import tiw1.emprunt.model.Emprunt;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
@@ -17,11 +17,13 @@ public class EmpruntDAO implements DAO<Emprunt>, Startable {
 
     @PersistenceContext
     private EntityManager em;
-    private static final String PERSISTENCE_UNIT_NAME = "test-pu";
     private static final Logger LOGGER_EMPRUNT = LoggerFactory.getLogger(EmpruntDAO.class);
+    private Contexte contexte;
 
-    public EmpruntDAO() {
-        em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
+    public EmpruntDAO(Contexte contexte) {
+        this.contexte = contexte;
+        contexte.save(getClass().getSimpleName(), this);
+        em = (EntityManager) contexte.get("em");
     }
 
     public void setEm(EntityManager em) {
