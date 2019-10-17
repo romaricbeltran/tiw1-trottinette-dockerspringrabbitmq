@@ -6,7 +6,7 @@ public class AbonneContexteImpl implements AbonneContexte {
 
     private AbonneDAO abonneDAO;
 
-    AbonneContexteImpl(AbonneDAO abonneDAO) {
+    public AbonneContexteImpl(AbonneDAO abonneDAO) {
         this.abonneDAO = abonneDAO;
     }
 

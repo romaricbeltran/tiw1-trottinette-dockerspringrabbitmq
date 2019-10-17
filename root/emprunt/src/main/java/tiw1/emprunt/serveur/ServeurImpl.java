@@ -25,18 +25,23 @@ public class ServeurImpl implements Serveur {
 
     public ServeurImpl() {
         DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
-        conteneurRacine.addComponent(AbonneContexte.class, AbonneContexteImpl.class);
-        contexte = conteneurRacine.getComponent(AbonneContexte.class);
+
+
         conteneurRacine.addComponent(EmpruntDAO.class);
         conteneurRacine.addComponent(AbonneDAO.class);
         conteneurRacine.addComponent(TrottinetteLoader.class);
         conteneurRacine.addComponent("nomCompagnie", NOM_COMPAGNIE);
 
-        conteneurRacine.as(CACHE).addComponent(AbonneRessource.class);
+        conteneurRacine.addComponent(AbonneContexte.class, AbonneContexteImpl.class);
+        contexte = conteneurRacine.getComponent(AbonneContexte.class);
+        contexte.setAbonneDAO(conteneurRacine.getComponent(AbonneDAO.class));
+
         conteneurRacine.as(CACHE).addComponent(EmpruntRessource.class);
+        conteneurRacine.as(CACHE).addComponent(AbonneRessource.class);
         conteneurRacine.as(CACHE).addComponent(TrottinetteRessource.class);
 
         conteneurRacine.addComponent(Controleur.class);
+
         conteneurRacine.start();
         controleur = conteneurRacine.getComponent(Controleur.class);
     }

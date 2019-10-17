@@ -2,6 +2,7 @@ package tiw1.emprunt.controleur;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.AbonneContexte;
 import tiw1.emprunt.uniformisation.AbonneRessource;
 import tiw1.emprunt.uniformisation.EmpruntRessource;
 import tiw1.emprunt.uniformisation.TrottinetteRessource;
@@ -13,12 +14,13 @@ import java.util.Map;
 public class Controleur implements ControleurInterface {
 
     private static final Logger LOGGER_CONTROLEUR = LoggerFactory.getLogger(Controleur.class);
-    private Map<String, ControleurInterface> controleursRessource = new HashMap<>();
+    private Map<String, Object> objectsRessource = new HashMap<>();
+    private AbonneContexte abonneContexte;
 
-    public Controleur(TrottinetteRessource trottinetteRessource, AbonneRessource abonneRessource, EmpruntRessource empruntRessource) {
-        controleursRessource.put("trottinette", trottinetteRessource);
-        controleursRessource.put("abonne", abonneRessource);
-        controleursRessource.put("emprunt", empruntRessource);
+    public Controleur(TrottinetteRessource trottinetteRessource, AbonneContexte abonneContexte, EmpruntRessource empruntRessource) {
+        objectsRessource.put("trottinette", trottinetteRessource);
+        objectsRessource.put("abonne", abonneContexte);
+        objectsRessource.put("emprunt", empruntRessource);
     }
 
     @Override
@@ -33,6 +35,14 @@ public class Controleur implements ControleurInterface {
 
     @Override
     public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException {
-        return controleursRessource.get(commande).process(commande, methode, parametres);
+        if (!commande.equals("abonne")) {
+            ControleurInterface controleurInterface = (ControleurInterface) objectsRessource.get(commande);
+            return controleurInterface.process(commande, methode, parametres);
+        } else {
+            abonneContexte = (AbonneContexte) objectsRessource.get(commande);
+            AbonneRessource abonneRessource = new AbonneRessource(abonneContexte);
+            ControleurInterface abonneControleurInterface = (ControleurInterface) abonneRessource;
+            return abonneControleurInterface.process(commande, methode, parametres);
+        }
     }
 }

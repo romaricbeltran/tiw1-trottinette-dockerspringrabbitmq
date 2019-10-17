@@ -1,5 +1,6 @@
 package tiw1.emprunt.uniformisation;
 
+import tiw1.emprunt.contexte.AbonneContexte;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.persistence.AbonneDAO;
 
@@ -8,10 +9,12 @@ import java.util.Map;
 
 public class AbonneRessource extends Ressource {
 
+    private AbonneContexte abonneContexte;
     private AbonneDAO abonneDAO;
 
-    public AbonneRessource() {
-        abonneDAO = new AbonneDAO();
+    public AbonneRessource(AbonneContexte abonneContexte) {
+        this.abonneContexte = abonneContexte;
+        abonneDAO = abonneContexte.getAbonneDAO();
     }
 
     @Override
