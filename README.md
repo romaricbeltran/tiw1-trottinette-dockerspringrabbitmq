@@ -10,6 +10,8 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 - [Conteneurs et IoC](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_conteneurs.pdf)
 - [Contexte et annuaire](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_contexte.pdf)
 - [Métaprogrammation](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_metaprogrammation.pdf)
+- [Pooling](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_pool.pdf)
+- [Intercepteurs](http://emmanuel.coquery.pages.univ-lyon1.fr/enseignement/tiw1-is/tiw5-handlers.pdf)
 
 > À venir
     
