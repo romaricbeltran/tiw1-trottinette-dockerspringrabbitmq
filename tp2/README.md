@@ -315,8 +315,8 @@ Dans cette partie, vous allez ajouter des annotations pour :
 
 Utilisez la même méthode pour :
 
-- éliminer les méthodes "parasites" `start()` et `stop()` à l'aide d'une annotation `@Startable`
-- réaliser l'injection de dépendances (`@Inject`)
+<!-- - éliminer les méthodes "parasites" `start()` et `stop()` à l'aide d'une annotation `@Startable`
+- réaliser l'injection de dépendances (`@Inject`) -->
 - déclarer des composants du framework et les spécialiser (`@Component`, `@Controller`...)
 
 > Remarque : vous pourrez avoir besoin d'utiliser différents niveaux de `Retention` et de l'introspection / l'API Reflection
