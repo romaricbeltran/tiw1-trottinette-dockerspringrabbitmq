@@ -319,8 +319,6 @@ Utilisez la même méthode pour :
 - réaliser l'injection de dépendances (`@Inject`) -->
 - déclarer des composants du framework et les spécialiser (`@Component`, `@Controller`...)
 
-> Remarque : vous pourrez avoir besoin d'utiliser différents niveaux de `Retention` et de l'introspection / l'API Reflection
-
 ## 7. Pooling 
 
 Dans cette partie vous allez constituer un _pool_ de `Trottinette` qui va remplacer la liste des trottinettes.
