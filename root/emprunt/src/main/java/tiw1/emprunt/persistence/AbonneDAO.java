@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.Contexte;
 import tiw1.emprunt.model.Abonne;
 
 import java.io.IOException;
@@ -26,12 +25,6 @@ public class AbonneDAO implements DAO<Abonne>, Startable {
     private Path path = Paths.get(ABONNES_JSON);
     private ObjectMapper mapper = new ObjectMapper();
     private static List<Abonne> abonnes = new ArrayList<>();
-    private Contexte contexte;
-
-    public AbonneDAO(Contexte contexte) {
-        this.contexte = contexte;
-        contexte.save(getClass().getSimpleName(), this);
-    }
 
     @Override
     public Optional get(long id) {

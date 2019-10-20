@@ -1,20 +1,21 @@
 package tiw1.emprunt.uniformisation;
 
-import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.persistence.AbonneDAO;
-import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
 import java.util.Map;
+
+import static tiw1.emprunt.annuaire.Sommaire.ABONNE_DAO;
 
 public class AbonneRessource extends Ressource {
 
     private AbonneDAO abonneDAO;
 
-    public AbonneRessource(Contexte contexte) {
-        super(contexte);
-        abonneDAO = (AbonneDAO) contexte.get(AbonneDAO.class.getSimpleName());
+    public AbonneRessource(Annuaire annuaire) {
+        super(annuaire);
+        abonneDAO = (AbonneDAO) annuaire.get(ABONNE_DAO);
     }
 
     @Override

@@ -3,7 +3,7 @@ package tiw1.emprunt.persistence;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.model.Emprunt;
 
 import javax.persistence.EntityManager;
@@ -13,17 +13,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static tiw1.emprunt.annuaire.Sommaire.EM;
+
 public class EmpruntDAO implements DAO<Emprunt>, Startable {
 
     @PersistenceContext
     private EntityManager em;
     private static final Logger LOGGER_EMPRUNT = LoggerFactory.getLogger(EmpruntDAO.class);
-    private Contexte contexte;
 
-    public EmpruntDAO(Contexte contexte) {
-        this.contexte = contexte;
-        contexte.save(getClass().getSimpleName(), this);
-        em = (EntityManager) contexte.get("em");
+    public EmpruntDAO(Annuaire annuaire, EntityManager em) {
+        this.em = (EntityManager) annuaire.get(EM);
     }
 
     public void setEm(EntityManager em) {

@@ -2,7 +2,7 @@ package tiw1.emprunt.controleur;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.annuaire.Annuaire;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,10 +10,10 @@ import java.util.Map;
 public class Controleur implements ControleurInterface {
 
     private static final Logger LOGGER_CONTROLEUR = LoggerFactory.getLogger(Controleur.class);
-    private Contexte contexte;
+    private Annuaire annuaire;
 
-    public Controleur(Contexte contexte) {
-        this.contexte = contexte;
+    public Controleur(Annuaire annuaire) {
+        this.annuaire = annuaire;
     }
 
     @Override
@@ -28,8 +28,6 @@ public class Controleur implements ControleurInterface {
 
     @Override
     public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException {
-        return ((ControleurInterface) contexte.get(commande.substring(0, 1).toUpperCase()
-                + commande.substring(1).toLowerCase()
-                + "Ressource")).process(commande, methode, parametres);
+        return ((ControleurInterface) annuaire.get("application/" + commande)).process(commande, methode, parametres);
     }
 }

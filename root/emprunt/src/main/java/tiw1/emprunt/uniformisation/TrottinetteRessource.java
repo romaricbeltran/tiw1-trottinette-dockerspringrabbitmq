@@ -1,14 +1,14 @@
 package tiw1.emprunt.uniformisation;
 
-import tiw1.emprunt.contexte.Contexte;
+import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 
 public class TrottinetteRessource extends Ressource {
 
-    public TrottinetteRessource(Contexte contexte) {
-        super(contexte);
+    public TrottinetteRessource(Annuaire annuaire) {
+        super(annuaire);
     }
 
     //getTrottinetteDisponibilite
@@ -30,5 +30,14 @@ public class TrottinetteRessource extends Ressource {
     @Override
     public Object delete(Map<String, Object> parametres) {
         return null;
+    }
+
+    @Override
+    public void start() {
+        try {
+            TrottinetteLoader.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

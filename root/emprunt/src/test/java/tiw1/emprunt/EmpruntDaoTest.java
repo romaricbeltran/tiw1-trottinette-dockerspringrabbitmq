@@ -4,8 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import tiw1.emprunt.contexte.Contexte;
-import tiw1.emprunt.contexte.ContexteImpl;
+import tiw1.emprunt.annuaire.Annuaire;
+import tiw1.emprunt.annuaire.AnnuaireImpl;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.persistence.EmpruntDAO;
 
@@ -15,13 +15,14 @@ import javax.persistence.Persistence;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static tiw1.emprunt.annuaire.Sommaire.EM;
 
 public class EmpruntDaoTest {
     private EmpruntDAO dao;
     private Emprunt emprunt = new Emprunt(1L, new Date(), 1L, 1L);
     private static EntityManagerFactory emf;
     private EntityManager em;
-    private Contexte contexte;
+    private Annuaire annuaire;
 
     @BeforeClass
     public static void setupEntityManager() {
@@ -31,9 +32,9 @@ public class EmpruntDaoTest {
     @Before
     public void ajoutEmprunt() {
         em = emf.createEntityManager();
-        contexte = new ContexteImpl();
-        contexte.save("em",em);
-        dao = new EmpruntDAO(contexte);
+        annuaire = new AnnuaireImpl();
+        annuaire.save(EM,em);
+        dao = new EmpruntDAO(annuaire, em);
         dao.setEm(em);
         dao.save(emprunt);
     }
