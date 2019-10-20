@@ -58,6 +58,9 @@ public class ServeurImpl implements Serveur {
         annuaire.save(EM, conteneurRacine.getComponent("em"));
         annuaire.save(CONTROLEUR, conteneurRacine.getComponent(Controleur.class));
 
+        annuaire.save(LISTE_TROTTINETTE, getTrottinettes());
+        annuaire.save(TROTTINETTE_POOL, conteneurRacine.getComponent(TrottinettePool.class));
+        
         saveClass(persistence_components, conteneurRacine);
         saveClass(ressource_components, conteneurRacine);
 
@@ -65,8 +68,6 @@ public class ServeurImpl implements Serveur {
         ((Startable) annuaire.get(EMPRUNT_RESSOURCE)).start();
         ((Startable) annuaire.get(TROTTINETTE_RESSOURCE)).start();
 
-        annuaire.save(LISTE_TROTTINETTE, getTrottinettes());
-        annuaire.save(TROTTINETTE_POOL, conteneurRacine.getComponent(TrottinettePool.class));
 
         annuaire.addRessourceObservers("application/persistence");
 
