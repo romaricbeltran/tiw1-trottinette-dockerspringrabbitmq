@@ -6,6 +6,7 @@ import tiw1.emprunt.persistence.AbonneDAO;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Observable;
 
 import static tiw1.emprunt.annuaire.Sommaire.ABONNE_DAO;
 
@@ -16,6 +17,11 @@ public class AbonneRessource extends Ressource {
     public AbonneRessource(Annuaire annuaire) {
         super(annuaire);
         abonneDAO = (AbonneDAO) annuaire.get(ABONNE_DAO);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        setAbonneDAO((AbonneDAO) annuaire.get(ABONNE_DAO));
     }
 
     @Override
@@ -38,5 +44,9 @@ public class AbonneRessource extends Ressource {
     public Object delete(Map<String, Object> parametres) throws IOException {
         abonneDAO.delete((Abonne) parametres.get("abonne"));
         return null;
+    }
+
+    private void setAbonneDAO(AbonneDAO abonneDAO) {
+        this.abonneDAO = abonneDAO;
     }
 }

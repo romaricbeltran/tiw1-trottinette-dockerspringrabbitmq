@@ -7,8 +7,9 @@ import tiw1.emprunt.controleur.ControleurInterface;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Observer;
 
-public abstract class Ressource implements ControleurInterface {
+public abstract class Ressource implements ControleurInterface, Observer {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     protected Annuaire annuaire;

@@ -23,11 +23,11 @@ import static tiw1.emprunt.persistence.TrottinetteLoader.getTrottinettes;
 public class ServeurImpl implements Serveur {
 
     private static final String compagnie = "ELIM";
-    private Annuaire annuaire;
+    private static Annuaire annuaire;
 
     public ServeurImpl(Annuaire annuaire) {
 
-        this.annuaire = annuaire;
+        ServeurImpl.annuaire = annuaire;
 
         DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
         conteneurRacine.addComponent(annuaire);
@@ -62,11 +62,24 @@ public class ServeurImpl implements Serveur {
         ((Startable) annuaire.get(TROTTINETTE_RESSOURCE)).start();
 
         annuaire.save(LISTE_TROTTINETTE, getTrottinettes());
+
+        annuaire.addRessourceObservers("application/persistence");
+
+        // Test observer
+        conteneurRacine.removeComponent(TrottinetteLoader.class);
+        conteneurRacine.addComponent(TrottinetteLoader.class);
+        annuaire.save(TROTTINETTE_LOADER, conteneurRacine.getComponent(TrottinetteLoader.class));
+        ///
+
         conteneurRacine.start();
     }
 
     @Override
     public Object processRequest(String commande, String methode, Map<String, Object> parametres) throws IOException {
         return ((Controleur) annuaire.get(CONTROLEUR)).process(commande, methode, parametres);
+    }
+
+    public static Annuaire getAnnuaire() {
+        return annuaire;
     }
 }

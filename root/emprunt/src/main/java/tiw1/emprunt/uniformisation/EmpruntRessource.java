@@ -9,6 +9,7 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 import static tiw1.emprunt.annuaire.Sommaire.EMPRUNT_DAO;
 
@@ -20,6 +21,11 @@ public class EmpruntRessource extends Ressource {
     public EmpruntRessource(Annuaire annuaire) {
         super(annuaire);
         empruntDAO = (EmpruntDAO) annuaire.get(EMPRUNT_DAO);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        setEmpruntDAO((EmpruntDAO) annuaire.get(EMPRUNT_DAO));
     }
 
     protected List getEmpruntByDate(Map<String, Object> parametres) {
@@ -55,5 +61,9 @@ public class EmpruntRessource extends Ressource {
     public Object delete(Map<String, Object> parametres) {
         empruntDAO.delete((Emprunt) parametres.get("emprunt"));
         return null;
+    }
+
+    public void setEmpruntDAO(EmpruntDAO empruntDAO) {
+        this.empruntDAO = empruntDAO;
     }
 }

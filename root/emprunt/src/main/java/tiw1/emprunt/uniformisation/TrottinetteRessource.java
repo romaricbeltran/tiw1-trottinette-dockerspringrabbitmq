@@ -4,17 +4,28 @@ import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
+import java.util.Observable;
+
+import static tiw1.emprunt.annuaire.Sommaire.TROTTINETTE_LOADER;
 
 public class TrottinetteRessource extends Ressource {
 
+    private TrottinetteLoader trottinetteLoader;
+
     public TrottinetteRessource(Annuaire annuaire) {
         super(annuaire);
+        trottinetteLoader = (TrottinetteLoader) annuaire.get(TROTTINETTE_LOADER);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        setTrottinetteLoader((TrottinetteLoader) annuaire.get(TROTTINETTE_LOADER));
     }
 
     //getTrottinetteDisponibilite
     @Override
     public Object get(Map<String, Object> parametres) {
-        return TrottinetteLoader.getTrottinetteById((Long) parametres.get("id")).isDisponible();
+        return trottinetteLoader.getTrottinetteById((Long) parametres.get("id")).isDisponible();
     }
 
     @Override
@@ -30,6 +41,10 @@ public class TrottinetteRessource extends Ressource {
     @Override
     public Object delete(Map<String, Object> parametres) {
         return null;
+    }
+
+    public void setTrottinetteLoader(TrottinetteLoader trottinetteLoader) {
+        this.trottinetteLoader = trottinetteLoader;
     }
 
     @Override
