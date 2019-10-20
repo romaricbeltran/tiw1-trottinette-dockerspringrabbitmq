@@ -22,7 +22,7 @@ public class ServeurImplTest {
     private Date date;
 
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         annuaire = new AnnuaireImpl();
         serveur = new ServeurImpl(annuaire);
         date = new Date();
