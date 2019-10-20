@@ -16,4 +16,6 @@ public interface Sommaire {
     String TROTTINETTE_LOADER = "application/persistence/trottinetteLoader";
 
     String EM = "application/persistence/em";
+
+    String TROTTINETTE_POOL = "application/persistence/trottinettePool";
 }

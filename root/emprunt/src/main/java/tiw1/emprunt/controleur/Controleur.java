@@ -3,6 +3,8 @@ package tiw1.emprunt.controleur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.annuaire.Annuaire;
+import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
+import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class Controleur implements ControleurInterface {
     }
 
     @Override
-    public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException {
+    public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
         return ((ControleurInterface) annuaire.get("application/" + commande)).process(commande, methode, parametres);
     }
 }

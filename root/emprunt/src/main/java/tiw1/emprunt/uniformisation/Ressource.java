@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.controleur.ControleurInterface;
+import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
+import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,7 +21,7 @@ public abstract class Ressource implements ControleurInterface, Observer {
     }
 
     @Override
-    public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException {
+    public Object process(String commande, String methode, Map<String, Object> parametres) throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
         switch (methode) {
             case "get":
                 return get(parametres);
@@ -38,6 +40,12 @@ public abstract class Ressource implements ControleurInterface, Observer {
             case "saveEmpruntFromDTO":
                 EmpruntRessource empruntRessourceSEFDTO = new EmpruntRessource(annuaire);
                 return empruntRessourceSEFDTO.saveEmpruntFromDTO(parametres);
+            case "recupererTrottinette":
+                TrottinetteRessource trottinetteRessourceRecup = new TrottinetteRessource(annuaire);
+                return trottinetteRessourceRecup.recupererTrottinette(parametres);
+            case "rendreTrottinette":
+                TrottinetteRessource trottinetteRessourceRendre = new TrottinetteRessource(annuaire);
+                return trottinetteRessourceRendre.rendreTrottinette(parametres);
             default:
                 return null;
         }

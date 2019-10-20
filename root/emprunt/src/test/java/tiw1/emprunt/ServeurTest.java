@@ -7,6 +7,9 @@ import tiw1.emprunt.annuaire.AnnuaireImpl;
 import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
+import tiw1.emprunt.model.Trottinette;
+import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
+import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
 import tiw1.emprunt.serveur.Serveur;
 import tiw1.emprunt.serveur.ServeurImpl;
 
@@ -30,7 +33,7 @@ public class ServeurTest {
     }
 
     @Test
-    public void testServeurGetTrottinetteDisponibilite() throws IOException {
+    public void testServeurGetTrottinetteDisponibilite() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
         System.out.println("testServeurGetTrottinetteDisponibilite");
 
         Map<String, Object> idTrottinette = new HashMap<>();
@@ -39,7 +42,7 @@ public class ServeurTest {
     }
 
     @Test
-    public void testServeurAbonne() throws IOException {
+    public void testServeurAbonne() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
         System.out.println("testServeurAbonne");
 
         List listAbonne = (List) serveur.processRequest("abonne", "getAll", null);
@@ -98,7 +101,7 @@ public class ServeurTest {
     }
 
     @Test
-    public void testEmpruntDTO() throws IOException {
+    public void testEmpruntDTO() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
 
         // EmpruntDTO crée l'emprunt
 
@@ -124,5 +127,18 @@ public class ServeurTest {
 
         // On supprime l'emprunt
         serveur.processRequest("emprunt", "delete", empruntFromDTO);
+    }
+
+    @Test
+    public void testTrottinettePool() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
+
+        Map<String, Object> idTrottinette = new HashMap<>();
+        idTrottinette.put("id", (long) 1);
+
+        // Exception si on inverse les deux directives
+        Trottinette trottinetteRendre = (Trottinette) serveur.processRequest("trottinette", "rendreTrottinette", idTrottinette);
+        Trottinette trottinetteRecup = (Trottinette) serveur.processRequest("trottinette", "recupererTrottinette", idTrottinette);
+
+        assertEquals(trottinetteRecup, trottinetteRendre);
     }
 }

@@ -1,31 +1,44 @@
 package tiw1.emprunt.uniformisation;
 
 import tiw1.emprunt.annuaire.Annuaire;
+import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.persistence.TrottinetteLoader;
+import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
+import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
+import tiw1.emprunt.pooling.TrottinettePool;
 
 import java.util.Map;
 import java.util.Observable;
 
 import static tiw1.emprunt.annuaire.Sommaire.TROTTINETTE_LOADER;
+import static tiw1.emprunt.annuaire.Sommaire.TROTTINETTE_POOL;
 
 public class TrottinetteRessource extends Ressource {
 
-    private TrottinetteLoader trottinetteLoader;
+    private TrottinettePool trottinettePool;
 
     public TrottinetteRessource(Annuaire annuaire) {
         super(annuaire);
-        trottinetteLoader = (TrottinetteLoader) annuaire.get(TROTTINETTE_LOADER);
+        trottinettePool = (TrottinettePool) annuaire.get(TROTTINETTE_POOL);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        setTrottinetteLoader((TrottinetteLoader) annuaire.get(TROTTINETTE_LOADER));
+        setTrottinettePool((TrottinettePool) annuaire.get(TROTTINETTE_POOL));
     }
 
     //getTrottinetteDisponibilite
     @Override
     public Object get(Map<String, Object> parametres) {
-        return trottinetteLoader.getTrottinetteById((Long) parametres.get("id")).isDisponible();
+        return trottinettePool.getTrottinetteById((Long) parametres.get("id")).isDisponible();
+    }
+
+    protected Trottinette recupererTrottinette(Map<String, Object> parametres) throws TrottinetteNonDisponibleException {
+        return trottinettePool.recupererTrottinette((long) parametres.get("id"));
+    }
+
+    protected Trottinette rendreTrottinette(Map<String, Object> parametres) throws TrottinetteNonRecupereException {
+        return trottinettePool.rendreTrottinette((long) parametres.get("id"));
     }
 
     @Override
@@ -43,8 +56,8 @@ public class TrottinetteRessource extends Ressource {
         return null;
     }
 
-    public void setTrottinetteLoader(TrottinetteLoader trottinetteLoader) {
-        this.trottinetteLoader = trottinetteLoader;
+    public void setTrottinettePool(TrottinettePool trottinettePool) {
+        this.trottinettePool = trottinettePool;
     }
 
     @Override
