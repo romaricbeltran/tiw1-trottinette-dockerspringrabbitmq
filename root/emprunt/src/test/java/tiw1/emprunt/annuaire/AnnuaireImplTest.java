@@ -15,7 +15,7 @@ public class AnnuaireImplTest {
     private Serveur serveur;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         annuaire = new AnnuaireImpl();
         serveur = new ServeurImpl(annuaire);
     }

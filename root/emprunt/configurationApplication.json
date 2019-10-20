@@ -1,0 +1,64 @@
+{
+  "application-config" : {
+    "name": "trottinettes",
+    "ressource-components": [
+      {
+        "class-name": "tiw1.emprunt.uniformisation.AbonneRessource",
+        "path" : "application/abonne"
+      },
+      {
+        "class-name": "tiw1.emprunt.uniformisation.EmpruntRessource",
+        "path" : "application/emprunt"
+      },
+      {
+        "class-name": "tiw1.emprunt.uniformisation.TrottinetteRessource",
+        "path" : "application/trottinette"
+      }
+    ],
+    "service-components": [
+      {
+        "class-name": "tiw1.emprunt.annuaire.AnnuaireImpl"
+      },
+      {
+        "class-name": "tiw1.emprunt.serveur.ServeurImpl",
+        "path" : "serveur"
+      },
+      {
+        "class-name": "tiw1.emprunt.controleur.Controleur",
+        "path" : "controleur"
+      }
+    ],
+    "metier-components": [
+      {
+        "class-name": "tiw1.emprunt.annuaire.AnnuaireImpl",
+        "path" : "application/metier/liste-trottinette"
+      }
+    ],
+    "persistence-components" : [
+      {
+        "class-name" : "tiw1.emprunt.persistence.AbonneDAO",
+        "path" : "application/persistence/abonneDAO",
+        "params" : [
+          {
+            "name" : "file",
+            "value" : "abonnes.json"
+          }
+        ]
+      },
+      {
+        "class-name" : "tiw1.emprunt.persistence.EmpruntDAO",
+        "path" : "application/persistence/empruntDAO",
+        "params" : [
+          {
+            "name" : "base",
+            "value" : "H2"
+          }
+        ]
+      },
+      {
+        "class-name" : "tiw1.emprunt.persistence.TrottinetteLoader",
+        "path" : "application/persistence/trottinetteLoader"
+      }
+    ]
+  }
+}
