@@ -1,5 +1,5 @@
 package tiw1.emprunt.annuaire;
-//LOAADDD
+
 public interface Annuaire {
 
     Object get(String commande);
@@ -7,4 +7,6 @@ public interface Annuaire {
     void save(String commande, Object objet);
 
     void addRessourceObservers(String commande);
+
+    int countObservers();
 }

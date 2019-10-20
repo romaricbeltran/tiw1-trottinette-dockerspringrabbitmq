@@ -4,24 +4,18 @@ import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.model.Trottinette;
 
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 import static tiw1.emprunt.annuaire.Sommaire.LISTE_TROTTINETTE;
 
-public class TrottinettePool implements Observer {
+public class TrottinettePool {
 
     private static Map<Long, Trottinette> trottinettes;
+
     private Annuaire annuaire;
 
     public TrottinettePool(Annuaire annuaire) {
         this.annuaire = annuaire;
         trottinettes = (Map<Long, Trottinette>) annuaire.get(LISTE_TROTTINETTE);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        setTrottinettes((Map<Long, Trottinette>) annuaire.get(LISTE_TROTTINETTE));
     }
 
     public Trottinette recupererTrottinette(long id) throws TrottinetteNonDisponibleException {
@@ -45,9 +39,4 @@ public class TrottinettePool implements Observer {
     public Trottinette getTrottinetteById(long id) {
         return trottinettes.get(id);
     }
-
-    private static void setTrottinettes(Map<Long, Trottinette> trottinettes) {
-        TrottinettePool.trottinettes = trottinettes;
-    }
 }
-

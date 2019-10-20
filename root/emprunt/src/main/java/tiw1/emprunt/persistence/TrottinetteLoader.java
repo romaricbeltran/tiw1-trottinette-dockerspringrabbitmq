@@ -84,10 +84,6 @@ public class TrottinetteLoader implements Startable {
         return responseBody;
     }
 
-    public static Trottinette getTrottinetteById(long id) {
-        return trottinettes.get(id);
-    }
-
     @Override
     public void start() {
         LOGGER_TROTTINETTE.info("Composant TrottinetteLoader démarré. Objet d'accès aux données : " + this);

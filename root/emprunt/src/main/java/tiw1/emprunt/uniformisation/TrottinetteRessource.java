@@ -10,7 +10,6 @@ import tiw1.emprunt.pooling.TrottinettePool;
 import java.util.Map;
 import java.util.Observable;
 
-import static tiw1.emprunt.annuaire.Sommaire.TROTTINETTE_LOADER;
 import static tiw1.emprunt.annuaire.Sommaire.TROTTINETTE_POOL;
 
 public class TrottinetteRessource extends Ressource {

@@ -1,17 +1,13 @@
-package tiw1.emprunt;
+package tiw1.emprunt.serveur;
 
 import org.junit.Before;
 import org.junit.Test;
 import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.annuaire.AnnuaireImpl;
-import tiw1.emprunt.dto.EmpruntDTO;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
-import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
 import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
-import tiw1.emprunt.serveur.Serveur;
-import tiw1.emprunt.serveur.ServeurImpl;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,14 +15,14 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class ServeurTest {
+public class ServeurImplTest {
 
     private Annuaire annuaire;
     private Serveur serveur;
     private Date date;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         annuaire = new AnnuaireImpl();
         serveur = new ServeurImpl(annuaire);
         date = new Date();
@@ -98,47 +94,5 @@ public class ServeurTest {
 
         List listEmpruntByDate = (List) serveur.processRequest("emprunt", "getEmpruntByDate", dateMap);
         assertEquals(listEmprunts, listEmpruntByDate);
-    }
-
-    @Test
-    public void testEmpruntDTO() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
-
-        // EmpruntDTO crée l'emprunt
-
-        EmpruntDTO dto = new EmpruntDTO((long) 2, date, (long) 2, (long) 1);
-
-        Map<String, Object> empruntDTO = new HashMap<>();
-        empruntDTO.put("empruntDTO", dto);
-
-        Emprunt emprunt = (Emprunt) serveur.processRequest("emprunt", "saveEmpruntFromDTO", empruntDTO);
-
-
-        Map<String, Object> empruntFromDTO = new HashMap<>();
-        empruntFromDTO.put("emprunt", emprunt);
-
-        // On récupère le DTO de l'emprunt et on accède aux infos
-
-        EmpruntDTO empruntDTOFromBase = (EmpruntDTO) serveur.processRequest("emprunt", "getEmpruntDTO", empruntFromDTO);
-
-        assertEquals((long) 2, (long) empruntDTOFromBase.getId());
-        assertEquals(date, empruntDTOFromBase.getDate());
-        assertEquals((long) 2, (long) empruntDTOFromBase.getIdAbonne());
-        assertEquals((long) 1, (long) empruntDTOFromBase.getIdTrottinette());
-
-        // On supprime l'emprunt
-        serveur.processRequest("emprunt", "delete", empruntFromDTO);
-    }
-
-    @Test
-    public void testTrottinettePool() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
-
-        Map<String, Object> idTrottinette = new HashMap<>();
-        idTrottinette.put("id", (long) 1);
-
-        // Exception si on inverse les deux directives
-        Trottinette trottinetteRendre = (Trottinette) serveur.processRequest("trottinette", "rendreTrottinette", idTrottinette);
-        Trottinette trottinetteRecup = (Trottinette) serveur.processRequest("trottinette", "recupererTrottinette", idTrottinette);
-
-        assertEquals(trottinetteRecup, trottinetteRendre);
     }
 }

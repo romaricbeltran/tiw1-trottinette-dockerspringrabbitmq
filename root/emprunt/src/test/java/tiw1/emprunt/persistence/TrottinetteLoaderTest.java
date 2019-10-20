@@ -1,11 +1,11 @@
-package tiw1.emprunt;
+package tiw1.emprunt.persistence;
 
 import org.junit.Test;
-import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class TrottinetteLoaderTest {
 

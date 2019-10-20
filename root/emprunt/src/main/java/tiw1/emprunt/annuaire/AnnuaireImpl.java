@@ -55,4 +55,8 @@ public class AnnuaireImpl extends Observable implements Annuaire {
         ((AnnuaireImpl) annuaire).addObserver((Observer) ServeurImpl.getAnnuaire().get(EMPRUNT_RESSOURCE));
         ((AnnuaireImpl) annuaire).addObserver((Observer) ServeurImpl.getAnnuaire().get(TROTTINETTE_RESSOURCE));
     }
+
+    public synchronized int countObservers() {
+        return super.countObservers();
+    }
 }
