@@ -1,6 +1,7 @@
-package tiw1.emprunt.persistence;
+package tiw1.emprunt;
 
 import org.junit.Test;
+import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 

@@ -30,10 +30,7 @@ public class ServeurImpl implements Serveur {
 
         ServeurImpl.annuaire = annuaire;
 
-        DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
-
         InputStream input = new FileInputStream("configurationApplication.json");
-
         JsonReader reader = Json.createReader(input);
         JsonObject jsonObject = reader.readObject();
 
@@ -43,6 +40,7 @@ public class ServeurImpl implements Serveur {
         JsonArray ressource_components = jsonObject.getJsonObject("application-config").getJsonArray("ressource-components");
         JsonArray persistence_components = jsonObject.getJsonObject("application-config").getJsonArray("persistence-components");
 
+        DefaultPicoContainer conteneurRacine = new DefaultPicoContainer(new Caching());
         conteneurRacine.addComponent(annuaire);
         conteneurRacine.addComponent(COMPAGNIE, compagnie);
         conteneurRacine.addComponent("em", Persistence.createEntityManagerFactory("test-pu").createEntityManager());
@@ -71,12 +69,6 @@ public class ServeurImpl implements Serveur {
         annuaire.save(TROTTINETTE_POOL, conteneurRacine.getComponent(TrottinettePool.class));
 
         annuaire.addRessourceObservers("application/persistence");
-
-        // Test observer
-        conteneurRacine.removeComponent(TrottinetteLoader.class);
-        conteneurRacine.addComponent(TrottinetteLoader.class);
-        annuaire.save(TROTTINETTE_LOADER, conteneurRacine.getComponent(TrottinetteLoader.class));
-        ///
 
         conteneurRacine.start();
     }

@@ -35,8 +35,6 @@ public class TrottinettePoolTest {
     @Test
     public void testTrottinettePool() throws IOException, TrottinetteNonDisponibleException, TrottinetteNonRecupereException {
 
-
-        // Exception si on inverse les deux directives
         TrottinettePool trottinettePool = (TrottinettePool) annuaire.get(TROTTINETTE_POOL);
         Trottinette id1 = trottinettePool.getTrottinetteById(1);
 
@@ -44,6 +42,8 @@ public class TrottinettePoolTest {
 
         Map<String, Object> idTrottinette = new HashMap<>();
         idTrottinette.put("id", id1.getId());
+
+        // Exception si on inverse les deux directives
         Trottinette trottinetteRendre = (Trottinette) serveur.processRequest("trottinette", "rendreTrottinette", idTrottinette);
         Trottinette trottinetteRecup = (Trottinette) serveur.processRequest("trottinette", "recupererTrottinette", idTrottinette);
 

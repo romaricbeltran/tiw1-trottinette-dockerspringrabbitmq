@@ -1,13 +1,10 @@
 package tiw1.emprunt.controleur;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import tiw1.emprunt.annuaire.Annuaire;
 import tiw1.emprunt.annuaire.AnnuaireImpl;
-import tiw1.emprunt.model.Abonne;
-import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.pooling.TrottinetteNonDisponibleException;
 import tiw1.emprunt.pooling.TrottinetteNonRecupereException;
 import tiw1.emprunt.serveur.Serveur;
@@ -17,8 +14,7 @@ import tiw1.emprunt.uniformisation.AbonneRessource;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static tiw1.emprunt.annuaire.Sommaire.ABONNE_DAO;
+import static org.junit.Assert.assertEquals;
 import static tiw1.emprunt.annuaire.Sommaire.ABONNE_RESSOURCE;
 
 public class ControleurTest {
@@ -35,14 +31,6 @@ public class ControleurTest {
     @After
     public void tearDown() {
         ((Controleur) ServeurImpl.getAnnuaire().get("controleur")).stop();
-    }
-
-    @Test
-    public void start() {
-    }
-
-    @Test
-    public void stop() {
     }
 
     @Test

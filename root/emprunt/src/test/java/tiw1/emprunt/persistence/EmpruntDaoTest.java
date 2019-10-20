@@ -1,4 +1,4 @@
-package tiw1.emprunt;
+package tiw1.emprunt.persistence;
 
 import org.junit.After;
 import org.junit.Before;
