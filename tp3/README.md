@@ -24,8 +24,13 @@ On y intégrera les modules suivants: Web, Security, Data JPA
 
 ### Contexte simple et mise en place des tests
 
+Comme le projet a été configuré pour utiliser Spring Data, il faut remplir la configuration de la base de données, même si on ne l'utilise pas dans un premier temps.
+
+Il faut ainsi éditer le fichier `src/main/resources/application.properties` pour ajouter une _datasource_ (`spring.datasource.url`, [doc](https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/html/appendix-application-properties.html#data-properties)), prendre par exemple une base H2 embarquée en mémoire (doc url JDBC [H2](http://h2database.com/html/features.html#in_memory_databases), [PostgreSQL](https://jdbc.postgresql.org/documentation/head/connect.html)).
+Ne pas oublier d'ajouter une dépendance au driver JDBC dans votre `pom.xml`.
+
 Créer un composant simple (qui ne fait pas appel à de la persistence des données), par exemple le composant qui récupère les informations sur les trottinettes.
-On hésitera pas à reprendre une partie du code du TP2 pour implémenter ce composant.
+On n'hésitera pas à reprendre une partie du code du TP2 pour implémenter ce composant.
 
 Mettre en place des tests mettant en oeuvre le composant en l'injectant dans la classe de test générée par SpringBoot.
 
