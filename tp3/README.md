@@ -45,10 +45,53 @@ Mettre en oeuvre une API REST pour votre application en utilisant des composants
 Décrire cette API via un fichier [OpenAPI](https://swagger.io/specification/). 
 Ce fichier pourra être écrit à la main ou généré via [SpringFox](http://springfox.github.io/springfox/docs/current/).
 
-EC: Vérifier le fonctionnement ci-dessous:
-> Utiliser le générateur de test jmeter à partir de ce fichier via [Swagger Codegen](https://swagger.io/tools/swagger-codegen/). À noter qu'il faut compiler swagger-codegen avec java 8 (le jar se trouve ensuite dans `modules/swagger-codegen-cli/target`)
-> 
-> *Remarque:* Du point de vue de Swagger Codegen, JMeter est un client pour votre API. 
+Utiliser le générateur de test jmeter à partir de ce fichier via [Swagger Codegen](https://swagger.io/tools/swagger-codegen/).  
+Il est possible d'utiliser (et même recommandé) le [plugin maven swagger-codegen](https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin) qui simplifiera l'utilisation de cet outil à condition d'intégrer les éléments de configuration suivants dans le `pom.xml` (les emplacements où insérer le code sont indiqués en syntaxe XPath):
+
+dans `/project/properties`, ajouter:
+```xml
+<jaxb-substitute.api.version>1.0.4.Final</jaxb-substitute.api.version>
+```
+
+dans `/project/build/pluginManagement/plugins`, ajouter:
+```xml
+<plugin>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+    <version>2.3.1</version>
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
+dans `/project/build/plugins`, ajouter la configuration du plugin en s'inspirant de la [documentation](https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen-maven-plugin/README.md), par exemple:
+```xml
+<plugin>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+    <version>2.3.1</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+            <configuration>
+                <inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec>
+                <language>jmeter</language>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Une fois les tests générés, on peut les recopier dans un répertoire versionnés et changer les données CSV.
+Le plugin génère des tests utilisant le module [CSV_Data_Set](https://jmeter.apache.org/usermanual/component_reference.html#CSV_Data_Set_Config). 
+Il faudra compléter la configuration du test pour injecter les variables CSV au bon endroit.
 
 
 ## Sécuriser avec Spring Security
@@ -67,4 +110,4 @@ EC: Vérifier le fonctionnement ci-dessous:
 ## Divers à éventuellement intégrer
 
 (Use case logs: composant de facturation fourni, mais buggé à intégrer, puis débugger avec les logs)
-(OpenAPI en YAML, peut permettre de générer des tests JMeter, utiliser http://springfox.github.io/springfox/ ?)
+
