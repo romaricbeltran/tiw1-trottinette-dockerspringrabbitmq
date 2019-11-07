@@ -47,6 +47,8 @@ Tester en java (test unitaires et/ou tests d'intégration avec l'_ApplicationCon
 
 Mettre en oeuvre une API REST pour votre application en utilisant des composants `@RestController` Spring.
 
+> L'application est sécurisée par défaut avec un mot de passe aléatoire, voir [ici](https://docs.spring.io/spring-security/site/docs/5.2.1.RELEASE/reference/htmlsingle/#starting-hello-spring-security-boot).
+
 Décrire cette API via un fichier [OpenAPI](https://swagger.io/specification/). 
 Ce fichier pourra être écrit à la main ou généré via [SpringFox](http://springfox.github.io/springfox/docs/current/).
 
@@ -101,12 +103,16 @@ Il faudra compléter la configuration du test pour injecter les variables CSV au
 
 ## Sécuriser avec Spring Security
 
-À venir
+On souhaite gérer l'authentification via [Keycloak](https://www.keycloak.org), un serveur permettant de gérer des identité et auquel on peut déléguer l'authentification via OAuth.
 
-(e.g. authentification avec OAuth)
-(penser à Keycloak)
-(réfléchir à des rôles, par exemple un admin et des niveau d'utilisateur (silver/gold, etc sur e.g. des temps d'utilisation de trottinette))
-(ref https://www.baeldung.com/spring-boot-keycloak)
+Installer Keycloak sur votre machine: soit directement un [serveur standalone](https://www.keycloak.org/downloads.html), soit en utilisant le [conteneur docker officiel](https://hub.docker.com/r/jboss/keycloak).
+
+Le [Spring Boot Adapter de Keycloak](https://www.keycloak.org/docs/latest/securing_apps/index.html#_spring_boot_adapter) permet d'utiliser Keycloak comme source d'authentification. 
+Il peut être intégré avec Spring Security.
+
+> Voir le tutoriel "[A Quick Guide to Using Keycloak with Spring Boot](https://www.baeldung.com/spring-boot-keycloak)" pour la configuration de Keycloak avec Spring Security, plus la [documentation](https://www.keycloak.org/docs/latest/securing_apps/index.html#_spring_security_adapter)
+
+Sécuriser l'application avec un rôle d'administrateur pouvant consulter et modifier toutes les ressources et un rôle utilisateur pouvant consulter et modifier uniquement ses propres données (données d'abonnés et emprunts réalisés).
 
 ### Spring AOP
 
