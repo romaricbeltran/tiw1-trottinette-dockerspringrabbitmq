@@ -111,6 +111,22 @@ Le [Spring Boot Adapter de Keycloak](https://www.keycloak.org/docs/latest/securi
 Il peut être intégré avec Spring Security.
 
 > Voir le tutoriel "[A Quick Guide to Using Keycloak with Spring Boot](https://www.baeldung.com/spring-boot-keycloak)" pour la configuration de Keycloak avec Spring Security, plus la [documentation](https://www.keycloak.org/docs/latest/securing_apps/index.html#_spring_security_adapter)
+>
+> Merci à Louis pour les infos suivantes (cf issue #1):
+>
+> - Attention aux URL: bien indiquer votre projet et pas master dans l'url, par exemple `http://localhost:8180/auth/realms/SpringBootKeycloak/protocol/openid-connect/token` et **pas** `http://localhost:8180/auth/realms/master/protocol/openid-connect/token`.
+> - Le formulaire à envoyer en post pour obtenir un token d'authentification doit être de type `x-www-form-urlencoded` et le `client_id` est l'id que l'on a créé dans l'onglet Clients (ici `login-app`)
+> - Utiliser la version 4.4.0.Final pour la dépendance `keycloak-adapter-bom`
+> - Il faut ajouter les lignes suivante dans `application.properties`, en supposant que votre realm est  `SpringBootKeycloak` et que le port de keycloak est `8180`, que votre application soit référencées par (i.e. le `client_id` est) `login-app` dans Keycloak:
+>   ```properties
+>   spring.main.allow-bean-definition-overriding=true
+>   
+>   keycloak.auth-server-url=http://localhost:8180/auth/realms/SpringBootKeycloak/protocol/openid-connect/token
+>   keycloak.realm=SpringBootKeycloak
+>   keycloak.resource=login-app
+>   keycloak.public-client=true
+>   keycloak.principal-attribute=preferred_username
+>   ```
 
 Sécuriser l'application avec un rôle d'administrateur pouvant consulter et modifier toutes les ressources et un rôle utilisateur pouvant consulter et modifier uniquement ses propres données (données d'abonnés et emprunts réalisés).
 
