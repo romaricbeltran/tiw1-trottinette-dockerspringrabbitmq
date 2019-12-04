@@ -71,6 +71,7 @@ public class CompteService {
 
     @Transactional
     public Compte createCompte(Compte compte) {
+        LOG.info("Creating compte, initial valeur: {}", compte.getValeur());
         return compteRepository.save(compte);
     }
 }
