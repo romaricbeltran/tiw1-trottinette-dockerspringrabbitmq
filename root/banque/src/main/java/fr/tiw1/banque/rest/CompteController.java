@@ -23,7 +23,7 @@ public class CompteController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Compte> createCompte(Compte compte) {
+    public ResponseEntity<Compte> createCompte(@RequestBody Compte compte) {
         return new ResponseEntity<>(compteService.createCompte(compte), HttpStatus.OK);
     }
 
