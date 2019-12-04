@@ -1,0 +1,23 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http:/univ-lyon1.fr/tiw1-is/banque/service"
+           targetNamespace="http:/univ-lyon1.fr/tiw1-is/banque/service" elementFormDefault="qualified">
+
+    <xs:element name="transfertRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="from" type="xs:long"/>
+                <xs:element name="to" type="xs:long"/>
+                <xs:element name="autorisation" type="xs:long"/>
+                <xs:element name="montant" type="xs:double"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="transfertResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="transfertOk" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

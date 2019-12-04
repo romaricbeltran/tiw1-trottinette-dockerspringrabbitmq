@@ -13,8 +13,6 @@ L'application à coder est celle du [TP2](../tp2/README.md), mais avec un server
 
 ## Spring Boot 
 
-(Appli spring MVC + Spring Data + OpenAPI + JMeter)
-
 ### Initialisation du projet
 
 Au lieu de modifier l'application du TP2, on partira d'une nouvelle application Spring Boot initalisée via https://start.spring.io/.
