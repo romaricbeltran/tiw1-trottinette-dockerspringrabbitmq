@@ -29,12 +29,12 @@ Début janvier, il sera intéressant de disposer de [Docker](https://www.docker.
 - [TP 1 : Mise en route Java](tp1/README.md) (séances des 11/09/2019 et 12/09/2019)
 - [TP 2 : Design patterns & frameworks](tp2/README.md) (du 18/09/2019 au 17/10/2019)
 - [TP 3 : Spring](tp3/README.md) (du 06/11/2019 au 13/11/2019)
-- TP 4 : OSGi et chargement dynamique (séance du 14/11/2019)
-- TP 5 : Services Web SOAP (séances des 04/12/2019 et 05/12/2019)
-- TP 6 : Files de messages et annuaires (séances des 11/12/2019 et 12/12/2019)
-- TP 7 : Microservices avec Docker (séance du 08/01/2020)
-- TP 8 : Orchestration avec Kubernetes (séances des 15/01/2020 et 16/01/2020)
-- TP 9 : Benchmarking et cache (séances des 05/02/2020 et 06/02/2020)
+- TP 5 : OSGi et chargement dynamique (séance du 14/11/2019)
+- [TP 6 : Services Web SOAP](tp6/README.md) (séances des 04/12/2019 et 05/12/2019)
+- TP 7 : Files de messages et annuaires (séances des 11/12/2019 et 12/12/2019)
+- TP 8 : Microservices avec Docker (séance du 08/01/2020)
+- TP 9 : Orchestration avec Kubernetes (séances des 15/01/2020 et 16/01/2020)
+- TP 10 : Benchmarking et cache (séances des 05/02/2020 et 06/02/2020)
 
 ## Consignes pour le rendu des TPs
 
