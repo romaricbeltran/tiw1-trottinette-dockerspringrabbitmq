@@ -48,6 +48,19 @@ Ajouter les dépendances suivantes:
 </dependency>
 ```
 
+> Bien vérifier que le parent de votre projet est `spring-boot-starter-parent`:
+> 
+> ```xml
+> <parent>
+> 	<groupId>org.springframework.boot</groupId>
+> 	<artifactId>spring-boot-starter-parent</artifactId>
+> 	<version>2.2.1.RELEASE</version>
+> 	<relativePath/> <!-- lookup parent from repository -->
+> </parent>
+> ```
+> 
+> C'est le cas si vous aviez bien généré le projet de base via https://start.spring.io/
+
 Modifier le comportement des emprunts: un emprunt peut être activé ou non et il n'est pas actif à la création et tant que le transfert n'a pas été confirmé.
 
 Créer un fichier `confirmation.xsd` qui contient les définition XmlSchema pour l'opération d'activation via un numéro d'activation. Configurer le plugin `jaxb2-maven-plugin` pour générer le code Java correspondant (_c.f._ le projet `banque`).
