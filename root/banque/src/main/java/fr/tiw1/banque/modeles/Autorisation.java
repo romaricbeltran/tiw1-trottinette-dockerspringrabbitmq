@@ -1,5 +1,7 @@
 package fr.tiw1.banque.modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.Objects;
@@ -58,6 +60,7 @@ public class Autorisation {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Compte getCompte() {
         return compte;
     }
