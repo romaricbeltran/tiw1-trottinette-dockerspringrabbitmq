@@ -1,6 +1,6 @@
 # TP6: Services SOAP et Message
 
-Ce TP n'est pas à rendre mais sera utiliser pour le projet final de l'UE.
+Ce TP n'est pas à rendre mais sera utilisé pour le projet final de l'UE.
 
 ## Objectifs 
 
@@ -92,4 +92,47 @@ Pour terminer, créer un client Java en ligne de commande qui simulera un client
 ## Analyse et correction
 
 Faire un diagramme de séquence des interactions lors de l'emprunt d'une trottinette.
-Identifier les différents problèmes de sécurité résultant cette interaction et proposer une modification du diagramme pour y remédier lorsque cela est possible. Implémenter.
+Identifier les différents problèmes de sécurité résultant cette interaction et proposer une modification du diagramme pour y remédier lorsque cela est possible. Implémenter et tester.
+
+## Transmission via RabbitMQ
+
+On souhaite fiabiliser la communication banque ↔ emprunts de trottinettes via un système de transmission de messages dédié. 
+
+On utilisera [RabbitMQ](https://www.rabbitmq.com/) comme _broker_. 
+Il est déployable simplement via [un conteneur Docker](https://hub.docker.com/_/rabbitmq) (utiliser avec le tag `management` pour pouvoir visualiser les messages transmis).
+
+Modifier le comportement des applications emprun et banque:
+
+- Ajouter [Spring AMQP](https://spring.io/projects/spring-amqp) aux projet emprunt et banque:
+
+  ```xml    
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.amqp</groupId>
+    <artifactId>spring-rabbit-test</artifactId>
+    <scope>test</scope>
+  </dependency>
+  ```
+
+  et modifier la dépendance vers Spring Boot Test:
+
+  ```xml
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+    <exclusions>
+      <exclusion>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+      </exclusion>
+    </exclusions>
+  </dependency>
+  ```
+  
+- Ajouter un consommateur de messages dans emprunt via un bean annoté [doc](https://docs.spring.io/spring-amqp/docs/2.2.2.RELEASE/reference/html/#async-annotation-driven)
+- Changer ensuite le comportement de la banque pour qu'elle envoie le message de confirmation de transfert via RabbitMQ.
+  L'adresse de la file RabbitMQ à utiliser sera transmise via le message SOAP de demande de transfert.
