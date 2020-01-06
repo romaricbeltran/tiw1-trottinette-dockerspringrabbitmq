@@ -5,15 +5,37 @@ import org.springframework.stereotype.Component;
 import tiw1.SpringBootTP3.model.Trottinette;
 import tiw1.SpringBootTP3.repository.TrottinetteRepository;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TrottinetteServiceImpl implements TrottinetteService {
 
+    private final TrottinetteRepository trottinetteRepository;
+
     @Autowired
-    private TrottinetteRepository trottinetteRepository;
+    public TrottinetteServiceImpl(TrottinetteRepository trottinetteRepository) {
+        this.trottinetteRepository = trottinetteRepository;
+    }
 
-    private static final String MAINTENANCE_URL = "http://localhost:8080/trottinette/";
+    @Override
+    public Optional<Trottinette> get(long id) {
+        return trottinetteRepository.findById(id);
+    }
 
-    private static Map<Long, Trottinette> trottinettes = null;
+    @Override
+    public List<Trottinette> getAll() {
+        return trottinetteRepository.findAll();
+    }
+
+    @Override
+    public Trottinette add() {
+        Trottinette trottinette = new Trottinette();
+        return trottinetteRepository.saveAndFlush(trottinette);
+    }
+
+    @Override
+    public void delete(long id) {
+        trottinetteRepository.deleteById(id);
+    }
 }

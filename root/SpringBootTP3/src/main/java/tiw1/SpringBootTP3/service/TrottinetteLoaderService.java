@@ -1,4 +1,4 @@
-package tiw1.SpringBootTP3.persistence;
+package tiw1.SpringBootTP3.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
@@ -9,33 +9,38 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.hibernate.service.spi.Startable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tiw1.SpringBootTP3.model.Trottinette;
+import tiw1.SpringBootTP3.repository.TrottinetteRepository;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-public class TrottinetteLoader implements Startable {
+@Service
+public class TrottinetteLoaderService {
 
     private static final String MAINTENANCE_URL = "http://localhost:8080/trottinette/";
-    private static final Logger LOGGER_TROTTINETTE = LoggerFactory.getLogger(TrottinetteLoader.class);
-    private static Map<Long, Trottinette> trottinettes = null;
+    private final TrottinetteRepository trottinetteRepository;
 
-    public static void load() throws Exception {
-        Map<Long, Trottinette> temp = new HashMap<>();
+    @Autowired
+    public TrottinetteLoaderService(TrottinetteRepository trottinetteRepository) {
+        this.trottinetteRepository = trottinetteRepository;
+    }
+
+    public void load() throws Exception {
         String texte = getTrottinettesOverHttp();
         ObjectMapper mapper = new ObjectMapper();
         List<Trottinette> list = Arrays.asList(mapper.readValue(texte, Trottinette[].class));
-        list.forEach((t) -> temp.put(t.getId(), t));
 
-        // A la fin, pour être sûr que le test échoue avant :
-        trottinettes = temp;
+        list.forEach((t) -> {
+            Trottinette trottinette = new Trottinette();
+            trottinette.setId(t.getId());
+            trottinette.setDisponible(t.isDisponible());
+            trottinette.setInterventions(t.getInterventions());
+            trottinetteRepository.save(trottinette);
+        });
     }
 
     // Chargement des trottinettes depuis le serveur HTTP déployé dans le projet maintenance
@@ -78,10 +83,5 @@ public class TrottinetteLoader implements Startable {
             httpclient.close();
         }
         return responseBody;
-    }
-
-    @Override
-    public void start() {
-        LOGGER_TROTTINETTE.info("Composant TrottinetteLoader démarré. Objet d'accès aux données : " + this);
     }
 }
