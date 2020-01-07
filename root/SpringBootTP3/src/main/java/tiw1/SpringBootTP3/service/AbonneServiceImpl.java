@@ -37,7 +37,6 @@ public class AbonneServiceImpl implements AbonneService {
 
     @Override
     public void add() throws IOException {
-        read();
         Abonne abonne = new Abonne();
         abonneRepository.save(abonne);
         persist();
@@ -45,7 +44,6 @@ public class AbonneServiceImpl implements AbonneService {
 
     @Override
     public void delete(long id) throws IOException {
-        read();
         if(abonneRepository.findById(id).isPresent()) {
             abonneRepository.deleteById(id);
             persist();
@@ -67,6 +65,9 @@ public class AbonneServiceImpl implements AbonneService {
         InputStream inputStream = TypeReference.class.getResourceAsStream("/json/abonnes.json");
         try {
             List<Abonne> abonnes = mapper.readValue(inputStream,typeReference);
+            for (int i = 0; i < abonnes.size(); i++) {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!     " + abonnes.get(i).getId());
+            }
             abonneRepository.deleteAll();
             abonneRepository.saveAll(abonnes);
             System.out.println("Abonnés récupérés du json");
