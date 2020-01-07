@@ -40,8 +40,9 @@ Dans cette section, vous allez "dockeriser" votre application et la faire tourne
 6.  Ajoutez un conteneur nginx en front et configurez nginx comme proxy pour qu'il redirige les requêtes sur les ports d'écoute des conteneurs applicatifs (maintenance, location, banque). Exposez le port d'écoute d'nginx sur la machine hôte et supprimez l'exposition de ceux des conteneurs applicatifs.
   
     Remarques :
-    *   Vous pouvez utiliser un autre conteneur, par exemple contenant un PHPMyAdmin, pour configurer votre base avant de la relier au reste de l'application, mais le plus simple est de déclarer la configuration dans les variables d'environnement d'un <span class="code">Dockerfile</span>
+    *   Vous pouvez utiliser un autre conteneur, par exemple contenant un PHPMyAdmin, pour configurer votre base avant de la relier au reste de l'application, mais le plus simple est de déclarer la configuration dans les variables d'environnement d'un <span class="code">Dockerfile</span>.
     *   Plus vous mettrez de config dans des <span class="code">Dockerfile</span> plutôt que dans des commandes <span class="code">docker run</span>, plus cela vous simplifiera la vie pour la question suivante...
+    *   Il est également possible d'utiliser le Dockerfile ou des volumes pour y placer des scripts d'initialisation de la base (cf doc des images [PostgreSQL](https://hub.docker.com/_/postgres)/[MariaDB](https://hub.docker.com/_/mariadb)).
 
 ### Configuration de l'application
 
