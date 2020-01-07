@@ -22,7 +22,7 @@ Dans ce TP, vous allez reprendre votre application trottinettes et la décompose
 *   location : Spring + Data (BD) + Security (Keycloak) + client SOAP (TP6)
 *   banque : services SOAP + RabbitMQ
 
-Rappel : prévoyez la possibilité de passer facilement d'un support de persistance en XML, JSON ou H2 à une BD (cf. question "Spring Data" du TP Spring, exemples de fichiers de persistence [là](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/Docker/persistence.xml) et [là](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/Docker/persistence_ref_contexte.xml))
+Rappel : prévoyez la possibilité de passer facilement d'un support de persistance en H2 à une BD externe en changeant l'URL JDBC.
 
 ### Infrastructure
 
@@ -34,12 +34,15 @@ Dans cette section, vous allez "dockeriser" votre application et la faire tourne
 
 1.  Commencez par placer dans des conteneurs Docker séparés les parties "standalone" (maintenance, Keycloak, banque) de votre application, et exposez les ports de sortie sur l'interface réseau de votre VM.
 2.  Reconfigurez votre application Spring Boot pour qu'elle requête ces conteneurs et exécutez-la sur votre VM pour tester.
-3.  Créez un nouveau conteneur avec le SGBD de votre choix (postgreSQL, mySQL...) et  Vous aurez besoin de mapper les fichiers de données avec des emplacements spécifiques du système de fichiers de la machine hôte ; pour cela, utilisez des [data volumes](https://docs.docker.com/userguide/dockervolumes/). 
-4.  Modifiez la persistence de l'application Spring Boot pour qu'elle fonctionne avec un entity manager qui utilise ce SGBD.
-5.  Dockerisez enfin l'application Spring Boot. Faites communiquer les conteneurs avec **2** [overlay networks](https://docs.docker.com/network/overlay/) : un pour les données et un pour les échanges de services.
-6.  Ajoutez un conteneur nginx en front et configurez nginx comme proxy pour qu'il redirige les requêtes sur les ports d'écoute des conteneurs applicatifs (maintenance, location, banque). Exposez le port d'écoute d'nginx sur la machine hôte et supprimez l'exposition de ceux des conteneurs applicatifs.
-  
+3.  Créez un nouveau conteneur avec le SGBD de votre choix (postgreSQL, mySQL...). Vous aurez besoin de mapper les fichiers de données avec des emplacements spécifiques du système de fichiers de la machine hôte ; pour cela, utilisez des [data volumes](https://docs.docker.com/userguide/dockervolumes/). Répliquez 2 fois cette srtucture, pour la persistance des applications de maintenance, d'emprunt et de banque.
+4.  Modifiez la persistence de chacune de vos applications pour qu'elles fonctionnent avec un entity manager qui utilise ce SGBD.
+5.  Créez un container RabbitMQ avec l'image Docker existante sur le [Docker Hub](https://hub.docker.com/).
+6.  Dockerisez l'application de banque, et configurez-la pour qu'elle utilise le container RabbitMQ.
+7.  Dockerisez enfin l'application Spring Boot.
+8.  Ajoutez un conteneur nginx en front et configurez nginx comme proxy pour qu'il redirige les requêtes sur les ports d'écoute des conteneurs applicatifs (maintenance, location, banque). Exposez le port d'écoute d'nginx sur la machine hôte et supprimez l'exposition de ceux des conteneurs applicatifs.
+
     Remarques :
+    *   Faites communiquer les conteneurs avec des [overlay networks](https://docs.docker.com/network/overlay/) : vous avez le choix entre des séparations par types d'échanges (un pour les données et un pour les échanges de services) ou par domaine applicatif, ou les 2...
     *   Vous pouvez utiliser un autre conteneur, par exemple contenant un PHPMyAdmin, pour configurer votre base avant de la relier au reste de l'application, mais le plus simple est de déclarer la configuration dans les variables d'environnement d'un <span class="code">Dockerfile</span>.
     *   Plus vous mettrez de config dans des <span class="code">Dockerfile</span> plutôt que dans des commandes <span class="code">docker run</span>, plus cela vous simplifiera la vie pour la question suivante...
     *   Il est également possible d'utiliser le Dockerfile ou des volumes pour y placer des scripts d'initialisation de la base (cf doc des images [PostgreSQL](https://hub.docker.com/_/postgres)/[MariaDB](https://hub.docker.com/_/mariadb)).
