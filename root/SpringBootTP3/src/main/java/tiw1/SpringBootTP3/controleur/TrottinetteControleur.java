@@ -31,8 +31,9 @@ public class TrottinetteControleur {
     }
 
     @GetMapping(value = "/trottinette/add")
-    public Trottinette add() {
-        return trottinetteService.add();
+    public List<Trottinette> add() {
+        trottinetteService.add();
+        return trottinetteService.getAll();
     }
 
     @GetMapping(value = "/trottinette/delete/{id}")

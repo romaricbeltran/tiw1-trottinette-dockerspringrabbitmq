@@ -10,8 +10,7 @@ import java.beans.Beans;
 @Import(value = Beans.class)
 public class SpringBootTp3Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootTp3Application.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootTp3Application.class, args);
+    }
 }

@@ -2,6 +2,7 @@ package tiw1.SpringBootTP3.service;
 
 import tiw1.SpringBootTP3.model.Abonne;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,11 @@ public interface AbonneService {
 
     List<Abonne> getAll();
 
-    Abonne add();
+    void add() throws IOException;
 
-    void delete(long id);
+    void delete(long id) throws IOException;
+
+    void persist() throws IOException;
+
+    void read() throws IOException;
 }

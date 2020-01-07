@@ -29,9 +29,8 @@ public class TrottinetteServiceImpl implements TrottinetteService {
     }
 
     @Override
-    public Trottinette add() {
-        Trottinette trottinette = new Trottinette();
-        return trottinetteRepository.saveAndFlush(trottinette);
+    public void add() {
+        trottinetteRepository.save(new Trottinette());
     }
 
     @Override

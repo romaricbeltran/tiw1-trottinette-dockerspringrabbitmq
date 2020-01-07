@@ -7,37 +7,40 @@ import org.springframework.web.bind.annotation.RestController;
 import tiw1.SpringBootTP3.model.Abonne;
 import tiw1.SpringBootTP3.service.AbonneService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class AbonneControleur {
 
-    private final AbonneService AbonneService;
+    private final AbonneService abonneService;
 
     @Autowired
-    public AbonneControleur(AbonneService AbonneService) {
-        this.AbonneService = AbonneService;
+    public AbonneControleur(AbonneService abonneService) throws IOException {
+        abonneService.read();
+        this.abonneService = abonneService;
     }
 
     @GetMapping(value = "/abonne")
     public List<Abonne> getAll() {
-        return AbonneService.getAll();
+        return abonneService.getAll();
     }
 
     @GetMapping(value = "/abonne/{id}")
     public Optional<Abonne> get(@PathVariable long id) {
-        return AbonneService.get(id);
+        return abonneService.get(id);
     }
 
     @GetMapping(value = "/abonne/add")
-    public Abonne add() {
-        return AbonneService.add();
+    public List<Abonne> add() throws IOException {
+        abonneService.add();
+        return abonneService.getAll();
     }
 
     @GetMapping(value = "/abonne/delete/{id}")
-    public List<Abonne> delete(@PathVariable long id) {
-        AbonneService.delete(id);
-        return AbonneService.getAll();
+    public List<Abonne> delete(@PathVariable long id) throws IOException {
+        abonneService.delete(id);
+        return abonneService.getAll();
     }
 }
