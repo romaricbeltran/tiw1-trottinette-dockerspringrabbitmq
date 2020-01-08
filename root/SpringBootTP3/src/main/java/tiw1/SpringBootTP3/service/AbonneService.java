@@ -6,17 +6,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public interface AbonneService {
+public interface AbonneService<T> {
 
-    Optional<Abonne> get(long id);
+        Optional<T> get(long id);
 
-    List<Abonne> getAll();
+        List<T> getAll();
 
-    void add() throws IOException;
+        void save(T t) throws Exception;
 
-    void delete(long id) throws IOException;
+        void update(T t) throws Exception;
 
-    void persist() throws IOException;
+        void delete(T t) throws Exception;
 
-    void read() throws IOException;
+        void read() throws IOException;
+
+        Abonne findById(Long id);
 }
