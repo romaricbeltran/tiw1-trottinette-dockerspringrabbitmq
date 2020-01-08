@@ -15,6 +15,7 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 - [Transactions JTA, Spring Data & Spring Security](http://emmanuel.coquery.pages.univ-lyon1.fr/slides/tiw1-08-spring-data-security/)
 - Composants distribués, [SOAP](https://perso.liris.cnrs.fr/emmanuel.coquery/enseignement/tiw1-is/web-services-03a-messages.pdf), [WSDL](https://perso.liris.cnrs.fr/emmanuel.coquery/enseignement/tiw1-is/webservices-03b-wsdl.pdf)
 - [Bus de messages et EIP](http://emmanuel.coquery.pages.univ-lyon1.fr/slides/tiw1-10-messages-eip)
+- [Microservices](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_microservices.pdf)
 
 > À venir
     
