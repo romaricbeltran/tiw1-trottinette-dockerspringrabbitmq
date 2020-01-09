@@ -13,7 +13,7 @@ public interface EmpruntService<T> {
 
     void save(T t);
 
-    void delete(T t);
+    void delete(long id);
 
     //Emprunt findById(long id);
 }

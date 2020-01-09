@@ -56,6 +56,7 @@ public class TrottinetteController {
         // TODO: tests: cas standard, avec id dans intervention, trottinette inexistante
         intervention.setId(null); // There is no reason to have an id from a non-yet existing intervention
         Trottinette trottinette = m.ajouterIntervention(id, intervention);
+        System.out.println("ttestetstetsetts !!! ! ! !! ! ! ! ! !! ! " + trottinette.getInterventions());
         if (trottinette == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {

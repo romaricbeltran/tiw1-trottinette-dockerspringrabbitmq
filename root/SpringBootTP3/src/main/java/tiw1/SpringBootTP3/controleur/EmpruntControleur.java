@@ -2,7 +2,6 @@ package tiw1.SpringBootTP3.controleur;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tiw1.SpringBootTP3.model.Abonne;
 import tiw1.SpringBootTP3.model.Emprunt;
 import tiw1.SpringBootTP3.service.EmpruntService;
 
@@ -20,15 +19,15 @@ public class EmpruntControleur {
     }
 
     @GetMapping(value = "/emprunt")
-    public List<Abonne> getAll() { return empruntService.getAll(); }
+    public List<Emprunt> getAll() { return empruntService.getAll(); }
 
     @GetMapping(value = "/emprunt/{id}")
-    public Optional<Abonne> get(@PathVariable long id) {
+    public Optional<Emprunt> get(@PathVariable long id) {
         return empruntService.get(id);
     }
 
-    @PostMapping(value = "/emprunt/add/{id}")
-    public List<Emprunt> add(@PathVariable long id) throws Exception {
+    @GetMapping(value = "/emprunt/add/{id}")
+    public List<Emprunt> add(@PathVariable long id) {
         Emprunt emprunt = new Emprunt();
         emprunt.setId(id);
         emprunt.setIdAbonne((long) 1);
@@ -38,12 +37,10 @@ public class EmpruntControleur {
         return empruntService.getAll();
     }
 
-    @DeleteMapping(value = "/emprunt/delete/{id}")
-    public List<Abonne> delete(@PathVariable long id) throws Exception {
-        Emprunt emprunt = new Emprunt();
-        emprunt.setId((long) 1);
+    @GetMapping(value = "/emprunt/delete/{id}")
+    public List<Emprunt> delete(@PathVariable long id) {
 
-        empruntService.delete(emprunt);
+        empruntService.delete(id);
         return empruntService.getAll();
     }
 }
