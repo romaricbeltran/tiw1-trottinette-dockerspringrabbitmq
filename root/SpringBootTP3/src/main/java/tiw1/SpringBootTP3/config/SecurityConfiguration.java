@@ -1,4 +1,4 @@
-package tiw1.SpringBootTP3.config;
+/*package tiw1.SpringBootTP3.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,5 +13,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
     }
-}
+}*/
 

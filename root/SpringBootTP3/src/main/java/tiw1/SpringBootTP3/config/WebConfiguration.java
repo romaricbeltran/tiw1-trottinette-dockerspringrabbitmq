@@ -1,3 +1,4 @@
+/*
 package tiw1.SpringBootTP3.config;
 
 import org.h2.server.web.WebServlet;
@@ -14,3 +15,4 @@ public class WebConfiguration {
         return registrationBean;
     }
 }
+*/
