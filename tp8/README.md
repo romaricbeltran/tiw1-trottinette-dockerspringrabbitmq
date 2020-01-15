@@ -19,8 +19,13 @@ Les binôme sont à déclarer auprès d'Emmanuel Coquery qui attribura un numér
 
 Un cluster Kubernetes (`tiw1`) est mis à disposition.
 Chaque étudiant recevra un mot de passe via tomuss (le login est le même que le compte étudiant usuel).
-Une interface Web de gestion (instance [Rancher](https://rancher.com/)) est disponible à l'adresse https://192.168.237.144.
+Une interface Web de gestion (instance [Rancher](https://rancher.com/)) est disponible à l'adresse https://dev.rancher.liris .
 
+> Il est nécessaire d'ajouter l'entrée suivante dans le fichier `/etc/hosts` de votre machine:
+>
+> ```
+> 192.168.237.144 dev.rancher.liris
+> ```
 
 Bien que cette interface permette d'effectuer un certain nombre d'actions, il est demandé d'utiliser plutôt l'interface en ligne de commandes de Kubernetes: [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 Cet utilitaire nécessite une configuration pour accéder au cluster.
