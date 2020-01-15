@@ -9,11 +9,18 @@ Ce TP vise à expérimenter l'utilisation d'un orchestrateur de conteneurs, ici 
 - élasticité
 - reconfiguration et redéploiement
 
+### Organisation
+
+Les étudiants devront se consituer en binômes (appelés groupes par la suite). 
+Ces binômes seront utilisés pour le projet final de l'UE.
+Les binôme sont à déclarer auprès d'Emmanuel Coquery qui attribura un numéro de groupe à chaque binôme.
+
 ### Infrastructure
 
 Un cluster Kubernetes (`tiw1`) est mis à disposition.
 Chaque étudiant recevra un mot de passe via tomuss (le login est le même que le compte étudiant usuel).
 Une interface Web de gestion (instance [Rancher](https://rancher.com/)) est disponible à l'adresse https://192.168.237.144.
+
 
 Bien que cette interface permette d'effectuer un certain nombre d'actions, il est demandé d'utiliser plutôt l'interface en ligne de commandes de Kubernetes: [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 Cet utilitaire nécessite une configuration pour accéder au cluster.
@@ -167,3 +174,4 @@ Remarques:
   Il sera peut-être nécessaire de faire d'autre adaptation à votre Dockerfile à cause du proxy
 - Utiliser les images maven alpine : `3.6.0-jdk-8-alpine`, aussi bien pour l'intégration que pour votre image, cela evite le bug `org.apache.maven.surefire.booter.SurefireBooterForkException: The forked VM terminated without properly saying goodbye.`
 - Ajouter une éxécution du script de configaration du proxy maven `RUN sh config/maven/setup-proxy-settings.sh` dans votre dockerfile pour régler les problemes de proxy
+- Un problème d'authentification empêche pour le moment l'utilisation de ces images au sein de l'intégration continue de gitlab.
