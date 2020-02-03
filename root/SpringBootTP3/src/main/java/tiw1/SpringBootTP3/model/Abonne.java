@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 public class Abonne {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Temporal(TemporalType.DATE)
