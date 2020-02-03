@@ -11,10 +11,10 @@ import java.util.Optional;
 @RestController
 public class EmpruntControleur {
 
-    private final EmpruntService empruntService;
+    private final EmpruntService<Emprunt> empruntService;
 
     @Autowired
-    public EmpruntControleur(EmpruntService empruntService) throws Exception {
+    public EmpruntControleur(EmpruntService<Emprunt> empruntService) throws Exception {
         this.empruntService = empruntService;
     }
 

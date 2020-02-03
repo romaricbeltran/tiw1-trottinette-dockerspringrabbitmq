@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RestController;
 import tiw1.SpringBootTP3.model.Abonne;
 import tiw1.SpringBootTP3.service.AbonneService;
 
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class AbonneControleur {
 
-    private final AbonneService abonneService;
+    private final AbonneService<Abonne> abonneService;
 
     @Autowired
-    public AbonneControleur(AbonneService abonneService) throws Exception {
+    public AbonneControleur(AbonneService<Abonne> abonneService) throws Exception {
         abonneService.read();
         this.abonneService = abonneService;
     }
@@ -37,7 +37,7 @@ public class AbonneControleur {
         Abonne abonne = new Abonne();
         abonne.setId(id);
         abonne.setName("TEST");
-
+        abonne.setDateDebut(new Date());
         abonneService.save(abonne);
         return abonneService.getAll();
     }
@@ -45,7 +45,7 @@ public class AbonneControleur {
     @GetMapping(value = "/abonne/delete/{id}")
     public List<Abonne> delete(@PathVariable long id) throws Exception {
         Abonne abonne = abonneService.findById(id);
-
+        abonne.setDateFin(new Date());
         abonneService.delete(abonne);
         return abonneService.getAll();
     }

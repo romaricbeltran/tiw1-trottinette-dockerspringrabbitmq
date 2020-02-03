@@ -29,6 +29,9 @@ public class TrottinetteServiceImpl implements TrottinetteService {
     }
 
     @Override
+    public boolean isDisponible(long id) { Trottinette t = trottinetteRepository.findById(id).orElse(null); if (t == null) {return Boolean.parseBoolean(null);} else {return t.isDisponible();} }
+
+    @Override
     public void add() {
         trottinetteRepository.save(new Trottinette());
     }

@@ -11,6 +11,8 @@ public interface TrottinetteService {
 
     List<Trottinette> getAll();
 
+    boolean isDisponible(long id);
+
     void add();
 
     void delete(long id);
