@@ -30,7 +30,6 @@ public class AbonneServiceImpl implements AbonneService<Abonne>, Startable {
 
     @Override
     public Optional get(long id) {
-        System.out.println("ID !!!!! " + id);
         for (Abonne abonne : abonnes) {
             if (abonne.getId() == id) {
                 return Optional.of(abonne);
@@ -46,9 +45,6 @@ public class AbonneServiceImpl implements AbonneService<Abonne>, Startable {
 
     @Override
     public void save(Abonne abonne) throws IOException {
-        // TODO check for duplicates
-        System.out.println("TEST !!!!!!!!!!!!!!!!!!!!!! ! ! ! ! " + get(abonne.getId()));
-        //LOGGER_ABONNE.debug("abonne: {}, class: {}", abonnes, abonnes.getClass());
         if (get(abonne.getId()).isEmpty()) {
             abonnes.add(abonne);
         }
