@@ -17,7 +17,8 @@ Lancer keycloak (le fichier se trouve dans le dossier d'installation de keycloak
 ```
 mvn package && java -jar target/SpringBootTP3-0.0.1-SNAPSHOT.jar
 ```
-## Se connecter
+
+## Se connecter (créer les utilisateurs et rôles correspondant sur keycloak)
 
 ### En tant qu'administrateur
 
@@ -26,5 +27,9 @@ username : admin | mdp : tiw1
 ### En tant que l'utilisateur Romaric
  
 username : Romaric | mdp: testRomaric1
+
+## Administration keycloak (ajouter l'adresse)
+
+username : admin | mdp : tiw1
 
 ## [Documentation Spring Fox](http://localhost:9000/swagger-ui.html)
