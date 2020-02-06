@@ -22,11 +22,20 @@ mvn package && java -jar target/SpringBootTP3-0.0.1-SNAPSHOT.jar
 
 ### En tant qu'administrateur
 
+###### romaric :
 username : admin | mdp : tiw1
+
+###### lucas :
+username : lucas | mdp : p1408928
+username : useradmin | mdp : userAdminTest
 
 ### En tant que l'utilisateur Romaric
  
+###### romaric :
 username : Romaric | mdp: testRomaric1
+
+###### lucas :
+username : user1 | mdp: user1Test
 
 ## Administration keycloak (http://127.0.0.1:8180/auth/)
 

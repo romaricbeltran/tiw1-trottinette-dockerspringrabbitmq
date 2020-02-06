@@ -7,6 +7,7 @@ import tiw1.SpringBootTP3.service.EmpruntService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 @RestController
 public class EmpruntControleur {
@@ -26,11 +27,13 @@ public class EmpruntControleur {
         return empruntService.get(id);
     }
 
-    @GetMapping(value = "/emprunt/add/{id}")
-    public List<Emprunt> add(@PathVariable long id) {
+    @GetMapping(value = "/emprunt/add/{id}/{idAbonne}")
+    public List<Emprunt> add(@PathVariable long id, @PathVariable long idAbonne) {
         Emprunt emprunt = new Emprunt();
         emprunt.setId(id);
-        emprunt.setIdAbonne((long) 1);
+        emprunt.setIdAbonne(idAbonne);
+        emprunt.setDate(new Date());
+        emprunt.isActif(false);
         emprunt.setIdTrottinette((long) 1);
 
         empruntService.save(emprunt);
@@ -42,5 +45,11 @@ public class EmpruntControleur {
 
         empruntService.delete(id);
         return empruntService.getAll();
+    }
+
+    @GetMapping(value = "/emprunt/activation/{id}")
+    public Optional<Emprunt> activate(@PathVariable long id) {
+
+        return empruntService.get(id);
     }
 }

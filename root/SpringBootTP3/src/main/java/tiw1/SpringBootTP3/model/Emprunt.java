@@ -20,6 +20,8 @@ public class Emprunt {
 
     private Long idAbonne, idTrottinette;
 
+    private Boolean actif;
+
     public Emprunt() {
     }
 
@@ -60,6 +62,14 @@ public class Emprunt {
 
     public void setIdTrottinette(Long idTrottinette) {
         this.idTrottinette = idTrottinette;
+    }
+
+    public Boolean getActif() {
+        return actif;
+    }
+
+    public void isActif(Boolean actif) {
+        this.actif = actif;
     }
 
     @Override
