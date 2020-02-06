@@ -14,4 +14,6 @@ public interface EmpruntService<T> {
     void save(T t);
 
     void delete(long id);
+
+    Emprunt activateEmprunt(long id);
 }

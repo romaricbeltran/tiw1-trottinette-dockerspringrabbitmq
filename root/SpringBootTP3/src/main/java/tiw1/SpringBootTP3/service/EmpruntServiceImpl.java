@@ -37,4 +37,14 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     public void delete(long id) {
         empruntRepository.deleteById(id);
     }
+
+    @Override
+    public Emprunt activateEmprunt(long id) {
+        Emprunt emprunt = get(id).orElse(null);
+        if (emprunt != null) {
+            emprunt.setActif(true);
+            empruntRepository.save(emprunt);
+        }
+        return emprunt;
+    }
 }

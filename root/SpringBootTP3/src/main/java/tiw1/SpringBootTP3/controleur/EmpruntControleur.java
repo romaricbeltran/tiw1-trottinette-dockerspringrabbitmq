@@ -27,16 +27,9 @@ public class EmpruntControleur {
         return empruntService.get(id);
     }
 
-    @GetMapping(value = "/emprunt/add/{id}/{idAbonne}")
-    public List<Emprunt> add(@PathVariable long id, @PathVariable long idAbonne) {
-        Emprunt emprunt = new Emprunt();
-        emprunt.setId(id);
-        emprunt.setIdAbonne(idAbonne);
-        emprunt.setDate(new Date());
-        emprunt.isActif(false);
-        emprunt.setIdTrottinette((long) 1);
-
-        empruntService.save(emprunt);
+    @GetMapping(value = "/emprunt/add/{idAbonne}/{idTrottinette}")
+    public List<Emprunt> add(@PathVariable long idAbonne, @PathVariable long idTrottinette) {
+        empruntService.save(new Emprunt(idAbonne, idTrottinette));
         return empruntService.getAll();
     }
 
@@ -47,9 +40,9 @@ public class EmpruntControleur {
         return empruntService.getAll();
     }
 
-    @GetMapping(value = "/emprunt/activation/{id}")
-    public Optional<Emprunt> activate(@PathVariable long id) {
-
-        return empruntService.get(id);
+    @GetMapping(value = "/emprunt/activate/{id}")
+    public List<Emprunt> activate(@PathVariable long id) {
+        empruntService.activateEmprunt(id);
+        return empruntService.getAll();
     }
 }

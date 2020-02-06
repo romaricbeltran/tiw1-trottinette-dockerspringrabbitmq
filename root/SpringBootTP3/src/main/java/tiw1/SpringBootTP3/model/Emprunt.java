@@ -20,13 +20,18 @@ public class Emprunt {
 
     private Long idAbonne, idTrottinette;
 
-    private Boolean actif;
+    private Boolean actif = false;
 
     public Emprunt() {
     }
 
-    public Emprunt(Long id, Date date, Long idAbonne, Long idTrottinette) {
-        this.id = id;
+    public Emprunt(Long idAbonne, Long idTrottinette) {
+        this.date = new Date();
+        this.idAbonne = idAbonne;
+        this.idTrottinette = idTrottinette;
+    }
+
+    public Emprunt(Date date, Long idAbonne, Long idTrottinette) {
         this.date = date;
         this.idAbonne = idAbonne;
         this.idTrottinette = idTrottinette;
@@ -64,11 +69,11 @@ public class Emprunt {
         this.idTrottinette = idTrottinette;
     }
 
-    public Boolean getActif() {
+    public Boolean isActif() {
         return actif;
     }
 
-    public void isActif(Boolean actif) {
+    public void setActif(Boolean actif) {
         this.actif = actif;
     }
 
