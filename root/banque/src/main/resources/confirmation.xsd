@@ -4,8 +4,6 @@
     <xs:element name="transfertRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
-                <xs:element name="activation" type="xs:boolean"/>
                 <xs:element name="numero" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
@@ -15,7 +13,6 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="transfertOk" type="xs:boolean"/>
-                <xs:element name="numero" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
