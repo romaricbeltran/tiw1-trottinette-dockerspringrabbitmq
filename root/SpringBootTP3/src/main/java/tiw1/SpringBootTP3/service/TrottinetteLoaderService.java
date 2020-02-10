@@ -38,7 +38,7 @@ public class TrottinetteLoaderService {
             Trottinette trottinette = new Trottinette();
             trottinette.setId(t.getId());
             trottinette.setDisponible(t.isDisponible());
-            trottinette.setInterventions(t.getInterventions());
+            /*trottinette.setInterventions(t.getInterventions());*/
             trottinetteRepository.save(trottinette);
         });
     }

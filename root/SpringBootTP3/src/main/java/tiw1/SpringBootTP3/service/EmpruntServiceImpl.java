@@ -12,10 +12,12 @@ import java.util.Optional;
 public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
     private final EmpruntRepository empruntRepository;
+    private final TrottinetteService trottinetteService;
 
     @Autowired
-    public EmpruntServiceImpl(EmpruntRepository empruntRepository) {
+    public EmpruntServiceImpl(EmpruntRepository empruntRepository, TrottinetteService trottinetteService) {
         this.empruntRepository = empruntRepository;
+        this.trottinetteService = trottinetteService;
     }
 
     @Override
@@ -36,6 +38,14 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     @Override
     public void delete(long id) {
         empruntRepository.deleteById(id);
+    }
+
+    public List<Emprunt> create(long idAbonne, long idTrottinette) throws Exception {
+/*
+        trottinetteService.borrow(idTrottinette);
+*/
+        save(new Emprunt(idAbonne,idTrottinette));
+        return getAll();
     }
 
     @Override

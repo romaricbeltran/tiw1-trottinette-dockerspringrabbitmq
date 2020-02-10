@@ -132,6 +132,7 @@
         <module>maintenance-web</module>
         <module>emprunt</module>
         <module>annotations</module>
-        <module>banque</module>
+	<module>banque</module>
+	<module>SpringBootTP3</module>
     </modules>
 </project>
