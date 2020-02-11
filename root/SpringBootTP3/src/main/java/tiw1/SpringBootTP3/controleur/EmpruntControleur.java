@@ -42,6 +42,12 @@ public class EmpruntControleur {
         return empruntService.getAll();
     }
 
+    @GetMapping(value = "/emprunt/autorisation/{idEmprunt}/{idCompte}")
+    public List<Emprunt> autorisation(@PathVariable long idEmprunt, @PathVariable long idCompte) {
+        empruntService.autorisation(idEmprunt, idCompte);
+        return empruntService.getAll();
+    }
+
     @GetMapping(value = "/emprunt/send/{idEmprunt}/{idCompte}/{idAutorisation}")
     public List<Emprunt> send(@PathVariable long idEmprunt, @PathVariable long idCompte, @PathVariable long idAutorisation) {
         empruntService.send(idEmprunt, idCompte, idAutorisation);

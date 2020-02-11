@@ -21,4 +21,6 @@ public interface EmpruntService<T> {
     List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation);
 
     void activate(TransfertResponse transfertResponse) throws Exception;
+
+    void autorisation(long idEmprunt, long idCompte);
 }

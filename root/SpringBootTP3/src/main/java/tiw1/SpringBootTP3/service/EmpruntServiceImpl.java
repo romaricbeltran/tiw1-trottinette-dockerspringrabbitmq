@@ -57,10 +57,30 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
         return getAll();
     }
 
+
+    @Override
+    public void autorisation(long idEmprunt, long idCompte) {
+
+/*        Emprunt emprunt = get(idEmprunt).orElse(null);
+
+        TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
+        transfertRequest.setAutorisation(idAutorisation);
+        transfertRequest.setFrom(idCompte);
+        transfertRequest.setTo(1L);
+        transfertRequest.setMontant(emprunt.getMontant());
+        transfertRequest.setIdEmprunt(idEmprunt);
+        transfertRequest.setResponseQueue("emprunt-queue");
+
+        rabbitService.sendOrder(transfertRequest);
+
+        return getAll();*/
+    }
+
+
     @Override
     public List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation) {
 
-        Emprunt emprunt = empruntRepository.getOne(idEmprunt);
+        Emprunt emprunt = get(idEmprunt).orElse(null);
 
         TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
         transfertRequest.setAutorisation(idAutorisation);
