@@ -12,7 +12,6 @@ import tiw1.SpringBootTP3.rabbitmq.RabbitService;
 import tiw1.SpringBootTP3.repository.EmpruntRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -59,23 +58,38 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
 
     @Override
-    public void autorisation(long idEmprunt, long idCompte) {
+    public List<Emprunt> askAutorisation(long idEmprunt, long idCompte) {
 
 /*        Emprunt emprunt = get(idEmprunt).orElse(null);
 
-        TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
-        transfertRequest.setAutorisation(idAutorisation);
-        transfertRequest.setFrom(idCompte);
-        transfertRequest.setTo(1L);
-        transfertRequest.setMontant(emprunt.getMontant());
-        transfertRequest.setIdEmprunt(idEmprunt);
-        transfertRequest.setResponseQueue("emprunt-queue");
+        AutorisationRequest autorisationRequest = objectFactory.createAutorisationRequest();
+        autorisationRequest.setFrom(idCompte);
+        autorisationRequest.setTo(1L);
+        autorisationRequest.setMontant(emprunt.getMontant());
+        autorisationRequest.setIdEmprunt(idEmprunt);
+        autorisationRequest.setResponseQueue("autorisation-queue");
 
-        rabbitService.sendOrder(transfertRequest);
+        rabbitService.sendOrder(transfertRequest);*/
 
-        return getAll();*/
+        return getAll();
     }
 
+    @Override
+    public List<Emprunt> receiveAutorisation(long idEmprunt, long idCompte) {
+
+/*        Emprunt emprunt = get(idEmprunt).orElse(null);
+
+        AutorisationRequest autorisationRequest = objectFactory.createAutorisationRequest();
+        autorisationRequest.setFrom(idCompte);
+        autorisationRequest.setTo(1L);
+        autorisationRequest.setMontant(emprunt.getMontant());
+        autorisationRequest.setIdEmprunt(idEmprunt);
+        autorisationRequest.setResponseQueue("autorisation-queue");
+
+        rabbitService.sendOrder(transfertRequest);*/
+
+        return getAll();
+    }
 
     @Override
     public List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation) {

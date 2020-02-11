@@ -14,14 +14,14 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class TransfertEndpoint {
-    public final static String NAMESPACE_URI = "http:/univ-lyon1.fr/tiw1-is/banque/service";
+    public final static String NAMESPACE_URI_TRANSFERT = "http:/univ-lyon1.fr/tiw1-is/banque/transfert";
     private final static Logger LOGGER_BANQUE = LoggerFactory.getLogger(TransfertEndpoint.class);
     private final static ObjectFactory banqueObjectFactory = new ObjectFactory();
 
     @Autowired
     private CompteService compteService;
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transfertRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI_TRANSFERT, localPart = "transfertRequest")
     @ResponsePayload
     public TransfertResponse transfert(@RequestPayload TransfertRequest transfert) {
         LOGGER_BANQUE.info("TRANSFERT");
