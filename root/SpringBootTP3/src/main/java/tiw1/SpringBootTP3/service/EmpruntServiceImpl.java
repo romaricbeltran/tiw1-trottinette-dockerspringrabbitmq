@@ -65,8 +65,10 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
         TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
         transfertRequest.setAutorisation(idAutorisation);
         transfertRequest.setFrom(idCompte);
-        transfertRequest.setTo(1);
+        transfertRequest.setTo(1L);
         transfertRequest.setMontant(emprunt.getMontant());
+        transfertRequest.setIdEmprunt(idEmprunt);
+        transfertRequest.setResponseQueue("emprunt-queue");
 
         rabbitService.sendOrder(transfertRequest);
 
@@ -76,10 +78,9 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     @Override
     @RabbitListener(queuesToDeclare = @Queue( name = "emprunt-queue"))
     public void activate(TransfertResponse transfertResponse) throws Exception {
-        System.out.println("OKOKOKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoo");
         Emprunt emprunt = empruntRepository.getOne(transfertResponse.getIdEmprunt());
         if(transfertResponse.isTransfertOk()) {
-            emprunt.setActif(true);
+            empruntRepository.getOne(transfertResponse.getIdEmprunt()).setActif(true);
         } else {
             trottinetteService.giveBack(emprunt.getIdTrottinette());
             empruntRepository.delete(emprunt);
