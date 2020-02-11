@@ -99,12 +99,6 @@
             <version>3.0.8.RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>fr.tiw1</groupId>
-            <artifactId>banque</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
 
 		<dependency>
 			<groupId>wsdl4j</groupId>
