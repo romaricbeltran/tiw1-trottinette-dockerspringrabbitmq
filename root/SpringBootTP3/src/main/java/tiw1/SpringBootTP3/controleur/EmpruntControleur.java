@@ -47,10 +47,4 @@ public class EmpruntControleur {
         empruntService.send(idEmprunt, idCompte, idAutorisation);
         return empruntService.getAll();
     }
-
-    @GetMapping(value = "/emprunt/activate/{id}")
-    public List<Emprunt> activate(@PathVariable long id) {
-        empruntService.activate(id);
-        return empruntService.getAll();
-    }
 }
