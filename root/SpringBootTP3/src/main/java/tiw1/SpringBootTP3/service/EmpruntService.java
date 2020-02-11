@@ -1,5 +1,6 @@
 package tiw1.SpringBootTP3.service;
 
+import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertResponse;
 import tiw1.SpringBootTP3.model.Emprunt;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface EmpruntService<T> {
     List<Emprunt> create(long idAbonne, long idTrottinette) throws Exception;
 
     List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation);
+
+    void activate(TransfertResponse transfertResponse) throws Exception;
 }

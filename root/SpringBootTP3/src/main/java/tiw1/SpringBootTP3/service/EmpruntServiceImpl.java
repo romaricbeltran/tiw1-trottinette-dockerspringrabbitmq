@@ -2,6 +2,9 @@ package tiw1.SpringBootTP3.service;
 
 import fr.univ_lyon1.tiw1_is.emprunt.soap.ObjectFactory;
 import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertRequest;
+import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertResponse;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tiw1.SpringBootTP3.model.Emprunt;
@@ -67,7 +70,20 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
         rabbitService.sendOrder(transfertRequest);
 
-        Objects.requireNonNull(get(idEmprunt).orElse(null)).setActif(true);
         return getAll();
+    }
+
+    @Override
+    @RabbitListener(queuesToDeclare = @Queue( name = "${rabbitmq.emprunt-queue}"))
+    public void activate(TransfertResponse transfertResponse) throws Exception {
+
+        Emprunt emprunt = empruntRepository.getOne(transfertResponse.getIdEmprunt());
+        if(transfertResponse.isTransfertOk()) {
+            emprunt.setActif(true);
+        } else {
+            trottinetteService.giveBack(emprunt.getIdTrottinette());
+            empruntRepository.delete(emprunt);
+            throw new Exception("An error occured while receiving transfert response");
+        }
     }
 }
