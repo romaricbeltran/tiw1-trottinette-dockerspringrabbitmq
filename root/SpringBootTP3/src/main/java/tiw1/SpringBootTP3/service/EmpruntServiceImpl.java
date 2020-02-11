@@ -9,6 +9,7 @@ import tiw1.SpringBootTP3.rabbitmq.RabbitService;
 import tiw1.SpringBootTP3.repository.EmpruntRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -65,16 +66,8 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
         transfertRequest.setMontant(emprunt.getMontant());
 
         rabbitService.sendOrder(transfertRequest);
-        return getAll();
-    }
 
-    @Override
-    public Emprunt activate(long id) {
-        Emprunt emprunt = get(id).orElse(null);
-        if (emprunt != null) {
-            emprunt.setActif(true);
-            empruntRepository.save(emprunt);
-        }
-        return emprunt;
+        Objects.requireNonNull(get(idEmprunt).orElse(null)).setActif(true);
+        return getAll();
     }
 }
