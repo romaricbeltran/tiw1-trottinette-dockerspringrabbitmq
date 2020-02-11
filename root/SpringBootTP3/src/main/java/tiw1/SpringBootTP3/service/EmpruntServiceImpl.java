@@ -83,6 +83,7 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
             if (emprunt != null) {
                 emprunt.setActif(true);
             }
+            empruntRepository.save(emprunt);
         } else {
             Emprunt emprunt = get(transfertResponse.getIdEmprunt()).orElse(null);
             if (emprunt != null) {
