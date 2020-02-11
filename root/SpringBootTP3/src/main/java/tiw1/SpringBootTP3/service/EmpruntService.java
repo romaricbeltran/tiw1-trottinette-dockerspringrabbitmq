@@ -15,7 +15,9 @@ public interface EmpruntService<T> {
 
     void delete(long id);
 
-    Emprunt activateEmprunt(long id);
-
     List<Emprunt> create(long idAbonne, long idTrottinette) throws Exception;
+
+    List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation);
+
+    Emprunt activate(long id);
 }

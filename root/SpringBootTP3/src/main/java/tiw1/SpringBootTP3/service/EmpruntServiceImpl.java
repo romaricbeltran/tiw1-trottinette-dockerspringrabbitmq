@@ -1,8 +1,11 @@
 package tiw1.SpringBootTP3.service;
 
+import fr.univ_lyon1.tiw1_is.emprunt.soap.ObjectFactory;
+import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tiw1.SpringBootTP3.model.Emprunt;
+import tiw1.SpringBootTP3.rabbitmq.RabbitService;
 import tiw1.SpringBootTP3.repository.EmpruntRepository;
 
 import java.util.List;
@@ -13,6 +16,10 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
     private final EmpruntRepository empruntRepository;
     private final TrottinetteService trottinetteService;
+
+    @Autowired
+    private RabbitService rabbitService;
+    private ObjectFactory objectFactory = new ObjectFactory();
 
     @Autowired
     public EmpruntServiceImpl(EmpruntRepository empruntRepository, TrottinetteService trottinetteService) {
@@ -41,15 +48,28 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     }
 
     public List<Emprunt> create(long idAbonne, long idTrottinette) throws Exception {
-/*
         trottinetteService.borrow(idTrottinette);
-*/
         save(new Emprunt(idAbonne,idTrottinette));
         return getAll();
     }
 
     @Override
-    public Emprunt activateEmprunt(long id) {
+    public List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation) {
+
+        Emprunt emprunt = empruntRepository.getOne(idEmprunt);
+
+        TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
+        transfertRequest.setAutorisation(idAutorisation);
+        transfertRequest.setFrom(idCompte);
+        transfertRequest.setTo(1);
+        transfertRequest.setMontant(emprunt.getMontant());
+
+        rabbitService.sendOrder(transfertRequest);
+        return getAll();
+    }
+
+    @Override
+    public Emprunt activate(long id) {
         Emprunt emprunt = get(id).orElse(null);
         if (emprunt != null) {
             emprunt.setActif(true);
