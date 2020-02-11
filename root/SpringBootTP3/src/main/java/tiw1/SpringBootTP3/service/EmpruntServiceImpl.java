@@ -58,7 +58,7 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     }
 
     @Override
-    public List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation) {
+    public void send(long idEmprunt, long idCompte, long idAutorisation) {
 
         Emprunt emprunt = empruntRepository.getOne(idEmprunt);
 
@@ -70,13 +70,13 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
         rabbitService.sendOrder(transfertRequest);
 
-        return getAll();
+//        return getAll();
     }
 
     @Override
-    @RabbitListener(queuesToDeclare = @Queue( name = "${rabbitmq.emprunt-queue}"))
+    @RabbitListener(queuesToDeclare = @Queue( name = "emprunt-queue"))
     public void activate(TransfertResponse transfertResponse) throws Exception {
-
+        System.out.println("OKOKOKOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoo");
         Emprunt emprunt = empruntRepository.getOne(transfertResponse.getIdEmprunt());
         if(transfertResponse.isTransfertOk()) {
             emprunt.setActif(true);

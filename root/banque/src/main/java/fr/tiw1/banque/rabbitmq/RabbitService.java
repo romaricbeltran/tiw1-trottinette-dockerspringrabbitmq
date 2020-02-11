@@ -28,15 +28,20 @@ public class RabbitService {
 
     @RabbitListener(queuesToDeclare = @Queue(name = "banque-queue"))
     public void receive(TransfertRequest transfert) {
+
         _log.info("A transfert has been requested, from {}, to {}, numeroAutorisation {}, mount {}",
             transfert.getFrom(),
             transfert.getTo(),
             transfert.getAutorisation(),
             transfert.getMontant()
         );
+
         boolean ok = compteService.transfert(transfert.getFrom(), transfert.getTo(), transfert.getAutorisation(), transfert.getMontant());
+
         TransfertResponse response = banqueObjectFactory.createTransfertResponse();
         response.setTransfertOk(ok);
+        response.setIdEmprunt(transfert.getIdEmprunt());
+
         this.sendOrder(response, transfert.getResponseQueue());
     }
 
