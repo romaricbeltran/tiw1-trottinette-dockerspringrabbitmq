@@ -18,7 +18,7 @@ public interface EmpruntService<T> {
 
     List<Emprunt> create(long idAbonne, long idTrottinette) throws Exception;
 
-    void send(long idEmprunt, long idCompte, long idAutorisation);
+    List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation);
 
     void activate(TransfertResponse transfertResponse) throws Exception;
 }
