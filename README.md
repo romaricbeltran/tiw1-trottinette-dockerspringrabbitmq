@@ -8,8 +8,9 @@ Se placer dans tiw-is-2019
 docker build -t maintenance .
 ```
 ```
-docker run -dit -p 8080:8080 --name maintenance maintenance
+docker run -d --volume /home/romaric/maintenance-web.mv.db:/root/maintenance-web.mv.db -p 8080:8080 --name maintenance maintenance
 ```
+
 
 ## EN LOCAL
 
