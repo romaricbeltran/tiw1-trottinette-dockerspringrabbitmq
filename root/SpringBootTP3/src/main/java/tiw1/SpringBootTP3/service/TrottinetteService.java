@@ -16,4 +16,8 @@ public interface TrottinetteService {
     void add();
 
     void delete(long id);
+
+    void borrow(long id) throws Exception;
+
+    void giveBack(long id) throws Exception;
 }

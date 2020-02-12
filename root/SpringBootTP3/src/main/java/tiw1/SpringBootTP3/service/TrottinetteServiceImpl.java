@@ -6,6 +6,7 @@ import tiw1.SpringBootTP3.model.Trottinette;
 import tiw1.SpringBootTP3.repository.TrottinetteRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -39,5 +40,25 @@ public class TrottinetteServiceImpl implements TrottinetteService {
     @Override
     public void delete(long id) {
         trottinetteRepository.deleteById(id);
+    }
+
+    @Override
+    public void borrow(long id) throws Exception {
+        Trottinette trottinette = get(id).orElse(null);
+        if (trottinette != null && trottinette.isDisponible()) {
+            Objects.requireNonNull(get(id).orElse(null)).setDisponible(false);
+        } else {
+            throw new Exception("La trottinette " + id + " est déjà prise !");
+        }
+    }
+
+    @Override
+    public void giveBack(long id) throws Exception {
+        Trottinette trottinette = get(id).orElse(null);
+        if (trottinette != null && !trottinette.isDisponible()) {
+            Objects.requireNonNull(get(id).orElse(null)).setDisponible(true);
+        } else {
+            throw new Exception("Pas de trottinette d'id " + id + " à rendre !");
+        }
     }
 }

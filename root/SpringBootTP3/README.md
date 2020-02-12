@@ -7,6 +7,11 @@ Dans le dossier maintenance-web, pour lancer le serveur de maintenance sur http:
 mvn jetty:run
 ```
 
+Lancer rabbitmq sur le port 5672
+```
+docker run -p 5672:5672 rabbitmq
+```
+
 Lancer keycloak (le fichier se trouve dans le dossier d'installation de keycloak /keycloak/bin) sur http://127.0.0.1:8180
 ```
 ./standalone.sh -Djboss.socket.binding.port-offset=100

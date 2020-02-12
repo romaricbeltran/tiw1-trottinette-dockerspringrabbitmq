@@ -1,13 +1,11 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http:/localhost:9090/ws/banque/"
            targetNamespace="http:/localhost:9090/ws/banque/" elementFormDefault="qualified">
 
-    <xs:element name="transfertRequest">
+    <xs:element name="autorisationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="returnUrl" type="xs:string"/>
                 <xs:element name="from" type="xs:long"/>
                 <xs:element name="to" type="xs:long"/>
-                <xs:element name="autorisation" type="xs:long"/>
                 <xs:element name="montant" type="xs:double"/>
                 <xs:element name="idEmprunt" type="xs:long"/>
                 <xs:element name="responseQueue" type="xs:string"/>
@@ -15,10 +13,11 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="transfertResponse">
+    <xs:element name="autorisationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="transfertOk" type="xs:boolean"/>
+                <xs:element name="autorisationOk" type="xs:boolean"/>
+                <xs:element name="numeroAutorisation" type="xs:long"/>
                 <xs:element name="idEmprunt" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>

@@ -25,17 +25,32 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "banque")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema banqueSchema) {
+    public DefaultWsdl11Definition banqueWsdl11Definition(XsdSchema banqueSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("banquePortType");
         wsdl11Definition.setLocationUri("/ws/banque");
-        wsdl11Definition.setTargetNamespace(TransfertEndpoint.NAMESPACE_URI);
+        wsdl11Definition.setTargetNamespace(TransfertEndpoint.NAMESPACE_URI_TRANSFERT);
         wsdl11Definition.setSchema(banqueSchema);
+        return wsdl11Definition;
+    }
+
+    @Bean(name = "autorisation")
+    public DefaultWsdl11Definition autorisationWsdl11Definition(XsdSchema autorisationSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("autorisationPortType");
+        wsdl11Definition.setLocationUri("/ws/autorisation");
+        wsdl11Definition.setTargetNamespace(AutorisationEndpoint.NAMESPACE_URI_AUTORISATION);
+        wsdl11Definition.setSchema(autorisationSchema);
         return wsdl11Definition;
     }
 
     @Bean
     public XsdSchema banqueSchema() {
         return new SimpleXsdSchema(new ClassPathResource("banque.xsd"));
+    }
+
+    @Bean
+    public XsdSchema autorisationSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("autorisation.xsd"));
     }
 }

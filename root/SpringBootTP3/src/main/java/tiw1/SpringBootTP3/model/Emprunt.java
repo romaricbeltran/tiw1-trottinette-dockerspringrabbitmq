@@ -20,7 +20,11 @@ public class Emprunt {
 
     private Long idAbonne, idTrottinette;
 
+    private double montant = 4.0;
+
     private Boolean actif = false;
+
+    private long idAutorisation = 0;
 
     public Emprunt() {
     }
@@ -69,12 +73,28 @@ public class Emprunt {
         this.idTrottinette = idTrottinette;
     }
 
+    public double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(double montant) {
+        this.montant = montant;
+    }
+
     public Boolean isActif() {
         return actif;
     }
 
     public void setActif(Boolean actif) {
         this.actif = actif;
+    }
+
+    public long getIdAutorisation() {
+        return idAutorisation;
+    }
+
+    public void setIdAutorisation(long idAutorisation) {
+        this.idAutorisation = idAutorisation;
     }
 
     @Override
