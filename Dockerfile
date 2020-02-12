@@ -1,9 +1,10 @@
 # getting base image maven
 FROM maven:latest
 
-COPY . /root
+ADD ./root/ /root/
 
-RUN cd /root/maintenance-web
-RUN mvn clean test
+EXPOSE 8080
 
-CMD cd /root/maitenance-web/ && mvn jetty:run
+RUN cd /root/maintenance-web && mvn clean install -DskipTests
+
+CMD cd /root && mvn jetty:run
