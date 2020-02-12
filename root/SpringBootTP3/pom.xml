@@ -161,6 +161,7 @@
                         <configuration>
                             <sources>
                                 <source>${project.basedir}/src/main/resources/banque.xsd</source>
+                                <source>${project.basedir}/src/main/resources/autorisation.xsd</source>
                             </sources>
                         </configuration>
                     </execution>

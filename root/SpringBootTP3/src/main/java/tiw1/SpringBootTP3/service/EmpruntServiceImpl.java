@@ -1,8 +1,6 @@
 package tiw1.SpringBootTP3.service;
 
-import fr.univ_lyon1.tiw1_is.emprunt.soap.ObjectFactory;
-import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertRequest;
-import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertResponse;
+import fr.univ_lyon1.tiw1_is.emprunt.soap.*;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import tiw1.SpringBootTP3.rabbitmq.RabbitService;
 import tiw1.SpringBootTP3.repository.EmpruntRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -59,23 +56,33 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
 
     @Override
-    public void autorisation(long idEmprunt, long idCompte) {
+    public List<Emprunt> askAutorisation(long idEmprunt, long idCompte) {
 
-/*        Emprunt emprunt = get(idEmprunt).orElse(null);
+        Emprunt emprunt = get(idEmprunt).orElse(null);
 
-        TransfertRequest transfertRequest = objectFactory.createTransfertRequest();
-        transfertRequest.setAutorisation(idAutorisation);
-        transfertRequest.setFrom(idCompte);
-        transfertRequest.setTo(1L);
-        transfertRequest.setMontant(emprunt.getMontant());
-        transfertRequest.setIdEmprunt(idEmprunt);
-        transfertRequest.setResponseQueue("emprunt-queue");
+        AutorisationRequest autorisationRequest = objectFactory.createAutorisationRequest();
+        autorisationRequest.setFrom(idCompte);
+        autorisationRequest.setTo(1L);
+        autorisationRequest.setMontant(emprunt.getMontant());
+        autorisationRequest.setIdEmprunt(idEmprunt);
+        autorisationRequest.setResponseQueue("autorisationResponse-queue");
 
-        rabbitService.sendOrder(transfertRequest);
+        rabbitService.requestAutorisation(autorisationRequest);
 
-        return getAll();*/
+        return getAll();
     }
 
+    @Override
+    @RabbitListener(queuesToDeclare = @Queue( name = "autorisationResponse-queue"))
+    public void receiveAutorisation(AutorisationResponse autorisationResponse) {
+        if(autorisationResponse.isAutorisationOk()) {
+            Emprunt emprunt = get(autorisationResponse.getIdEmprunt()).orElse(null);
+            if (emprunt != null) {
+                emprunt.setIdAutorisation(autorisationResponse.getNumeroAutorisation());
+            }
+            empruntRepository.save(emprunt);
+        }
+    }
 
     @Override
     public List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation) {

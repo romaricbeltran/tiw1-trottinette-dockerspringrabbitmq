@@ -24,6 +24,8 @@ public class Emprunt {
 
     private Boolean actif = false;
 
+    private long idAutorisation = 0;
+
     public Emprunt() {
     }
 
@@ -85,6 +87,14 @@ public class Emprunt {
 
     public void setActif(Boolean actif) {
         this.actif = actif;
+    }
+
+    public long getIdAutorisation() {
+        return idAutorisation;
+    }
+
+    public void setIdAutorisation(long idAutorisation) {
+        this.idAutorisation = idAutorisation;
     }
 
     @Override

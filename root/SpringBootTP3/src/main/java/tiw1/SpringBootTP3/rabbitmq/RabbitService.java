@@ -1,5 +1,6 @@
 package tiw1.SpringBootTP3.rabbitmq;
 
+import fr.univ_lyon1.tiw1_is.emprunt.soap.AutorisationRequest;
 import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,9 @@ public class RabbitService {
     @Value("${rabbit-mq.banque-queue}")
     private String BANQUE_QUEUE;
 
+    @Value("${rabbit-mq.autorisation-queue}")
+    private String AUTORISATION_QUEUE;
+
     private Logger _log = LoggerFactory.getLogger(RabbitService.class);
 
     private RabbitTemplate rabbitTemplate;
@@ -23,6 +27,16 @@ public class RabbitService {
     @Autowired
     public void OrderMessageSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void requestAutorisation(AutorisationRequest autorisationRequest) {
+        _log.info("Sending autorisationRequest, from {}, to {}, for mount {}, for emprunt {}",
+                autorisationRequest.getFrom(),
+                autorisationRequest.getTo(),
+                autorisationRequest.getMontant(),
+                autorisationRequest.getIdEmprunt()
+        );
+        this.rabbitTemplate.convertAndSend(AUTORISATION_QUEUE, autorisationRequest);
     }
 
     public void sendOrder(TransfertRequest transfertRequest) {
