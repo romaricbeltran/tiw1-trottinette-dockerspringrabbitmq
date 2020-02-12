@@ -1,10 +1,13 @@
-FROM maven:3.6.3-jdk-11 
+FROM maven:3.6.3-jdk-11-openj9 as MAVEN_BUILD  
+
+COPY ./ ./banque/  
+
 WORKDIR /banque  
 
-ARG JAR_FILE=target/banque*.jar 
-COPY ${JAR_FILE} banque.jar 
-COPY run.sh run.sh 
-RUN ["chmod", "+x", "run.sh"]  
+RUN mvn package  
 
-EXPOSE 9090 
-CMD ["./run.sh"]
+FROM openjdk:11-jdk   
+
+COPY --from=MAVEN_BUILD /banque/target/ . 
+
+ENTRYPOINT ["java","-jar","banque-0.0.1-SNAPSHOT.jar"]
