@@ -2,9 +2,7 @@ package fr.tiw1.banque.rabbitmq;
 
 import fr.tiw1.banque.services.CompteService;
 
-import localhost._9090.ws.banque.ObjectFactory;
-import localhost._9090.ws.banque.TransfertRequest;
-import localhost._9090.ws.banque.TransfertResponse;
+import localhost._9090.ws.banque.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -45,14 +43,37 @@ public class RabbitService {
         this.sendOrder(response, transfert.getResponseQueue());
     }
 
+    @RabbitListener(queuesToDeclare = @Queue(name = "autorisation-queue"))
+    public void receiveAutorisation(AutorisationRequest autorisation) {
+
+        _log.info("An authorization has been requested, from {}, to {}, mount {}",
+                autorisation.getFrom(),
+                autorisation.getTo(),
+                autorisation.getMontant()
+        );
+
+        long autorisationId = compteService.autorisation(autorisation.getFrom(), autorisation.getTo(), autorisation.getMontant());
+
+        AutorisationResponse response = banqueObjectFactory.createAutorisationResponse();
+        response.setAutorisationOk(autorisationId != 0);
+        response.setIdEmprunt(autorisation.getIdEmprunt());
+        response.setNumeroAutorisation(autorisationId);
+
+        this.responseAutorisation(response, autorisation.getResponseQueue());
+    }
+
     @Autowired
     public void OrderMessageSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
     private void sendOrder(TransfertResponse transfertResponse, String responseQueue) {
-        _log.info("Response send "+transfertResponse.isTransfertOk());
+        _log.info("Order's response send "+transfertResponse.isTransfertOk());
         this.rabbitTemplate.convertAndSend(responseQueue, transfertResponse);
     }
 
+    private void responseAutorisation(AutorisationResponse autorisationResponse, String responseQueue) {
+        _log.info("Authorization's response send "+autorisationResponse.isAutorisationOk());
+        this.rabbitTemplate.convertAndSend(responseQueue, autorisationResponse);
+    }
 }

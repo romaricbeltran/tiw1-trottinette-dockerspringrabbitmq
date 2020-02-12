@@ -1,8 +1,6 @@
 package tiw1.SpringBootTP3.service;
 
-import fr.univ_lyon1.tiw1_is.emprunt.soap.ObjectFactory;
-import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertRequest;
-import fr.univ_lyon1.tiw1_is.emprunt.soap.TransfertResponse;
+import fr.univ_lyon1.tiw1_is.emprunt.soap.*;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,34 +58,30 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
     @Override
     public List<Emprunt> askAutorisation(long idEmprunt, long idCompte) {
 
-/*        Emprunt emprunt = get(idEmprunt).orElse(null);
+        Emprunt emprunt = get(idEmprunt).orElse(null);
 
         AutorisationRequest autorisationRequest = objectFactory.createAutorisationRequest();
         autorisationRequest.setFrom(idCompte);
         autorisationRequest.setTo(1L);
         autorisationRequest.setMontant(emprunt.getMontant());
         autorisationRequest.setIdEmprunt(idEmprunt);
-        autorisationRequest.setResponseQueue("autorisation-queue");
+        autorisationRequest.setResponseQueue("autorisationResponse-queue");
 
-        rabbitService.sendOrder(transfertRequest);*/
+        rabbitService.requestAutorisation(autorisationRequest);
 
         return getAll();
     }
 
     @Override
-    public List<Emprunt> receiveAutorisation(long idEmprunt, long idCompte) {
-
-/*        Emprunt emprunt = get(idEmprunt).orElse(null);
-
-        AutorisationRequest autorisationRequest = objectFactory.createAutorisationRequest();
-        autorisationRequest.setFrom(idCompte);
-        autorisationRequest.setTo(1L);
-        autorisationRequest.setMontant(emprunt.getMontant());
-        autorisationRequest.setIdEmprunt(idEmprunt);
-        autorisationRequest.setResponseQueue("autorisation-queue");
-
-        rabbitService.sendOrder(transfertRequest);*/
-
+    @RabbitListener(queuesToDeclare = @Queue( name = "autorisationResponse-queue"))
+    public List<Emprunt> receiveAutorisation(AutorisationResponse autorisationResponse) {
+        if(autorisationResponse.isAutorisationOk()) {
+            Emprunt emprunt = get(autorisationResponse.getIdEmprunt()).orElse(null);
+            if (emprunt != null) {
+                emprunt.setIdAutorisation(autorisationResponse.getNumeroAutorisation());
+            }
+            empruntRepository.save(emprunt);
+        }
         return getAll();
     }
 

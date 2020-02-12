@@ -27,9 +27,12 @@ public class AutorisationEndpoint {
     @ResponsePayload
     public AutorisationResponse autorisation(@RequestPayload AutorisationRequest autorisation) {
         LOG.info("AUTORISATION !!!!!!!!!!!");
-        boolean ok = compteService.autorisation(autorisation.getFrom(), autorisation.getTo(), autorisation.getMontant());
+        long autorisationId = compteService.autorisation(autorisation.getFrom(), autorisation.getTo(), autorisation.getMontant());
+
         AutorisationResponse response = banqueObjectFactory.createAutorisationResponse();
-        response.setAutorisationOk(ok);
+        response.setAutorisationOk(autorisationId != 0);
+        response.setIdEmprunt(autorisation.getIdEmprunt());
+        response.setNumeroAutorisation(autorisationId);
         return response;
     }
 

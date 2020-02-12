@@ -8,6 +8,7 @@
                 <xs:element name="to" type="xs:long"/>
                 <xs:element name="montant" type="xs:double"/>
                 <xs:element name="idEmprunt" type="xs:long"/>
+                <xs:element name="responseQueue" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

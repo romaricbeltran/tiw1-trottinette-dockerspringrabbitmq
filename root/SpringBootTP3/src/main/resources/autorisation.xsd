@@ -17,6 +17,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="autorisationOk" type="xs:boolean"/>
+                <xs:element name="numeroAutorisation" type="xs:long"/>
                 <xs:element name="idEmprunt" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>

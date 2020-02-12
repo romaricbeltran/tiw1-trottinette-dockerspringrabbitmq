@@ -44,7 +44,7 @@ public class EmpruntControleur {
 
     @GetMapping(value = "/emprunt/autorisation/{idEmprunt}/{idCompte}")
     public List<Emprunt> autorisation(@PathVariable long idEmprunt, @PathVariable long idCompte) {
-        empruntService.autorisation(idEmprunt, idCompte);
+        empruntService.askAutorisation(idEmprunt, idCompte);
         return empruntService.getAll();
     }
 

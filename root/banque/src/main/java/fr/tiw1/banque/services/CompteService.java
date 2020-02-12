@@ -70,6 +70,24 @@ public class CompteService {
     }
 
     @Transactional
+    public long autorisation(long from, long to, double montant) {
+        Optional<Compte> compteFrom = compteRepository.findById(from);
+        Optional<Compte> compteTo = compteRepository.findById(to);
+
+        if (compteFrom.isEmpty()) {
+            LOG.warn("Did not found from: {}",from);
+        } else if (compteTo.isEmpty()) {
+            LOG.warn("Did not found to: {}", to);
+        } else {
+            Autorisation autorisation = new Autorisation();
+            compteFrom.get().addAutorisation(autorisation);
+            autorisation.setMontant(montant);
+            return autorisation.getId();
+        }
+        return 0;
+    }
+
+    @Transactional
     public Compte createCompte(Compte compte) {
         LOG.info("Creating compte, initial valeur: {}", compte.getValeur());
         return compteRepository.save(compte);
