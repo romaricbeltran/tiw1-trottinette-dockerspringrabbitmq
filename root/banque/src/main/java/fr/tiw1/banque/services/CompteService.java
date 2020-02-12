@@ -82,6 +82,7 @@ public class CompteService {
             Autorisation autorisation = new Autorisation();
             compteFrom.get().addAutorisation(autorisation);
             autorisation.setMontant(montant);
+            autorisationRepository.save(autorisation);
             return autorisation.getId();
         }
         return 0;

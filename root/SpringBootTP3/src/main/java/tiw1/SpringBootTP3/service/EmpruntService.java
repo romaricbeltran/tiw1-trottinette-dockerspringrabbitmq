@@ -24,7 +24,7 @@ public interface EmpruntService<T> {
     List<Emprunt> askAutorisation(long idEmprunt, long idCompte);
 
     @RabbitListener(queuesToDeclare = @Queue( name = "autorisation-queue"))
-    List<Emprunt> receiveAutorisation(AutorisationResponse autorisationResponse);
+    void receiveAutorisation(AutorisationResponse autorisationResponse);
 
     List<Emprunt> send(long idEmprunt, long idCompte, long idAutorisation);
 

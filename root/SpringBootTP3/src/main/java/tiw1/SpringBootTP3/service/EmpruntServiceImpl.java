@@ -74,7 +74,7 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
 
     @Override
     @RabbitListener(queuesToDeclare = @Queue( name = "autorisationResponse-queue"))
-    public List<Emprunt> receiveAutorisation(AutorisationResponse autorisationResponse) {
+    public void receiveAutorisation(AutorisationResponse autorisationResponse) {
         if(autorisationResponse.isAutorisationOk()) {
             Emprunt emprunt = get(autorisationResponse.getIdEmprunt()).orElse(null);
             if (emprunt != null) {
@@ -82,7 +82,6 @@ public class EmpruntServiceImpl implements EmpruntService<Emprunt> {
             }
             empruntRepository.save(emprunt);
         }
-        return getAll();
     }
 
     @Override
