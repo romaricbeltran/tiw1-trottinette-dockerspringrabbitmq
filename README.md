@@ -11,7 +11,11 @@ docker build -t maintenance .
 docker run -d --volume /home/romaric/maintenance-web.mv.db:/root/maintenance-web.mv.db -p 8080:8080 --name maintenance maintenance
 ```
 
-
+### Lancer le docker keycloak
+Après avoir exporté le realm keycloak depuis l'interface en local
+```
+docker run -p 8180:8180 -e KEYCLOAK_IMPORT=/tmp/realm-export.json --volume /home/romaric/realm-export.json:/tmp/realm-export.json -d --name keycloak jboss/keycloak
+```
 ## EN LOCAL
 
 ### Prérequis
