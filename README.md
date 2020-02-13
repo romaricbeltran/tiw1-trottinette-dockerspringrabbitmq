@@ -2,6 +2,10 @@ Université Claude Bernard Lyon 1 – M2 TIW – Intergiciels et Services
 
 # TIW1 - Intergiciels et services
 
+#### Notes
+
+Chaque branche correspond aux rendus demandés. Le projet final se trouve sur la branche tp7.
+
 Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://offre-de-formations.univ-lyon1.fr/ue-16806-345%2Fintergiciels-et-services.html) du master [TIW](http://master-info.univ-lyon1.fr/TIW/).
 
 ## Supports de cours
