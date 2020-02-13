@@ -62,9 +62,40 @@ La requête suivante déclenche l'envoi des informations d'emprunt à la banque 
 - Ajouter une trottinette : `POST sur 127.0.0.1:9000/trottinette/add`
 - Supprimer une trottinette d'id 8 : `DELETE sur 127.0.0.1:9000/trottinette/delete/8`
 
-## Se connecter (créer les utilisateurs et rôles correspondant sur keycloak)
+## Partie Docker
 
-### En tant qu'administrateur
+Les dockers présentent des problèmes, nous conseillons de ne pas les utiliser pour tester l'application complète 
+
+##### Lancer le docker maintenance-web (valide)
+Se placer dans tiw-is-2019, il faut build le docker et binder le fichier de base de données maintenance (remplacer romaric par votre nom d'user)
+```
+docker build -t maintenance .
+```
+```
+docker run -d --volume /home/romaric/maintenance-web.mv.db:/root/maintenance-web.mv.db -p 8080:8080 --name maintenance maintenance
+```
+
+### Lancer le docker banque (valide)
+Se placer dans root/banque
+```
+mvn package
+```
+```
+docker build -t banque .
+```
+```
+docker run -d --volume /home/romaric/data/tiw1/banque.mv.db :/root/data/tiw1/banque.mv.db -p 9090:9090 --name banque banque
+```
+
+### Lancer le docker keycloak (potentiel problème de null pointer sur realm-export.json)
+Après avoir exporté le realm keycloak depuis l'interface en local
+```
+docker run -p 8180:8180 -e KEYCLOAK_IMPORT=/tmp/realm-export.json --volume /home/romaric/realm-export.json:/tmp/realm-export.json -d --name keycloak jboss/keycloak
+```
+
+### Se connecter à l'administration Keycloak (créer les utilisateurs et rôles correspondant sur keycloak)
+
+#### En tant qu'administrateur
 
 ###### romaric :
 username : admin | mdp : tiw1
