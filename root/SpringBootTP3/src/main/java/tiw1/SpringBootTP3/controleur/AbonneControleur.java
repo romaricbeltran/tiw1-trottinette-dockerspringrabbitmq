@@ -1,9 +1,7 @@
 package tiw1.SpringBootTP3.controleur;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tiw1.SpringBootTP3.model.Abonne;
 import tiw1.SpringBootTP3.service.AbonneService;
 
@@ -32,7 +30,7 @@ public class AbonneControleur {
         return abonneService.get(id);
     }
 
-    @GetMapping(value = "/abonne/add/{id}")
+    @PostMapping(value = "/abonne/add/{id}")
     public List<Abonne> add(@PathVariable long id) throws Exception {
         Abonne abonne = new Abonne();
         abonne.setId(id);
@@ -42,7 +40,7 @@ public class AbonneControleur {
         return abonneService.getAll();
     }
 
-    @GetMapping(value = "/abonne/delete/{id}")
+    @DeleteMapping(value = "/abonne/delete/{id}")
     public List<Abonne> delete(@PathVariable long id) throws Exception {
         Abonne abonne = abonneService.findById(id);
         abonne.setDateFin(new Date());

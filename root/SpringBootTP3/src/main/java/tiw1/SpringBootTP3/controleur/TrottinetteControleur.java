@@ -30,13 +30,13 @@ public class TrottinetteControleur {
         return trottinetteService.get(id);
     }
 
-    @GetMapping(value = "/trottinette/add")
+    @PostMapping(value = "/trottinette/add")
     public List<Trottinette> add() {
         trottinetteService.add();
         return trottinetteService.getAll();
     }
 
-    @GetMapping(value = "/trottinette/delete/{id}")
+    @DeleteMapping(value = "/trottinette/delete/{id}")
     public List<Trottinette> delete(@PathVariable long id) {
         trottinetteService.delete(id);
         return trottinetteService.getAll();
