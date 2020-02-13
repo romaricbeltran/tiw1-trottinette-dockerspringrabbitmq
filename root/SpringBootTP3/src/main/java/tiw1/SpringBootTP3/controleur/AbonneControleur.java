@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tiw1.SpringBootTP3.model.Abonne;
 import tiw1.SpringBootTP3.service.AbonneService;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,6 @@ public class AbonneControleur {
 
     @Autowired
     public AbonneControleur(AbonneService<Abonne> abonneService) throws Exception {
-        abonneService.read();
         this.abonneService = abonneService;
     }
 
@@ -31,20 +31,14 @@ public class AbonneControleur {
     }
 
     @PostMapping(value = "/abonne/add/{id}")
-    public List<Abonne> add(@PathVariable long id) throws Exception {
-        Abonne abonne = new Abonne();
-        abonne.setId(id);
-        abonne.setName("TEST");
-        abonne.setDateDebut(new Date());
-        abonneService.save(abonne);
+    public List<Abonne> add(@PathVariable long id) throws IOException {
+        abonneService.save(id);
         return abonneService.getAll();
     }
 
     @DeleteMapping(value = "/abonne/delete/{id}")
     public List<Abonne> delete(@PathVariable long id) throws Exception {
-        Abonne abonne = abonneService.findById(id);
-        abonne.setDateFin(new Date());
-        abonneService.delete(abonne);
+        abonneService.delete(id);
         return abonneService.getAll();
     }
 }

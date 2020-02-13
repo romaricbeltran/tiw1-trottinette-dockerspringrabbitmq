@@ -12,13 +12,7 @@ public interface AbonneService<T> {
 
         List<T> getAll();
 
-        void save(T t) throws Exception;
+        void save(long id) throws IOException;
 
-        void update(T t) throws Exception;
-
-        void delete(T t) throws Exception;
-
-        void read() throws IOException;
-
-        Abonne findById(Long id);
+        void delete(long id) throws IOException;
 }
